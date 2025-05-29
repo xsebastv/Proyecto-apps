@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Países</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Filtrar por continente</ion-label>
+    <ion-select [(ngModel)]="continenteSeleccionado" (ionChange)="filtrarPorContinente()">
+      <ion-select-option value="">Todos</ion-select-option>
+      <ion-select-option *ngFor="let cont of continentes" [value]="cont">
+        {{ cont }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <app-paises-list
+    [paises]="paisesFiltrados"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo"
+  ></app-paises-list>
+</ion-content>

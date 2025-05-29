@@ -1,0 +1,78 @@
+<ion-card *ngIf="pais">
+  <ion-card-content>
+    <div class="pais-thumb">
+      <img *ngIf="pais.imagen" [src]="pais.imagen" alt="Imagen país" />
+      <div *ngIf="!pais.imagen" class="sin-imagen">
+        <ion-icon name="image-outline" size="large"></ion-icon>
+        Sin imagen
+      </div>
+    </div>
+    <div class="pais-titulos">
+      <h2>
+        <ion-icon name="flag-outline"></ion-icon>
+        {{ pais.nombre }}
+      </h2>
+      <h3 *ngIf="pais.codigo">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        Código: {{ pais.codigo }}
+      </h3>
+      <h3 *ngIf="pais.continente">
+        <ion-icon name="earth-outline"></ion-icon>
+        Continente: {{ pais.continente }}
+      </h3>
+    </div>
+    <div class="info-extra">
+      <p>
+        <ion-icon name="people-outline"></ion-icon>
+        <strong>Población:</strong>
+        {{ pais.poblacion ? formatPoblacion(pais.poblacion) : 'No disponible' }}
+      </p>
+      <p>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <strong>ID:</strong> {{ pais._id }}
+      </p>
+    </div>
+
+    <!-- Platos típicos desplegable -->
+    <ion-accordion-group>
+      <ion-accordion value="platos-tipicos">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <ion-icon name="restaurant-outline"></ion-icon>
+            Platos típicos
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ng-container *ngIf="platosTipicos.length > 0; else sinPlatos">
+            <ion-list>
+              <ion-item *ngFor="let plato of platosTipicos">
+                <ion-avatar slot="start">
+                  <img *ngIf="plato.imagen" [src]="plato.imagen" alt="Imagen plato" />
+                  <ion-icon *ngIf="!plato.imagen" name="restaurant-outline"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <strong>{{ plato.nombre }}</strong>
+                  <p>{{ plato.descripcion }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-button expand="block" fill="outline" (click)="verTodosPlatos()">
+              Ver todos los platos típicos
+            </ion-button>
+          </ng-container>
+          <ng-template #sinPlatos>
+            <ion-text color="medium">
+              No hay platos típicos registrados.
+            </ion-text>
+          </ng-template>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+    <!-- Fin desplegable -->
+  </ion-card-content>
+</ion-card>
+<ion-card *ngIf="!pais">
+  <ion-card-content>
+    <ion-spinner></ion-spinner> Cargando información del país...
+  </ion-card-content>
+</ion-card>

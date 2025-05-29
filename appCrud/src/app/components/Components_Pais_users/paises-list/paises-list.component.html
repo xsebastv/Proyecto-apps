@@ -1,0 +1,67 @@
+<ion-list class="ion-padding-top">
+  <ion-list-header>
+    <ion-label>
+      <strong>{{ titulo }} - {{ subtitulo }}</strong>
+    </ion-label>
+  </ion-list-header>
+
+  <ion-card *ngFor="let pais of paisesMostrados">
+    <ion-item lines="none" class="pais-item" (click)="verPais(pais._id)">
+      <div class="pais-thumb">
+        <img *ngIf="pais.imagen; else sinImagen" [src]="pais.imagen" alt="Imagen país" />
+        <ng-template #sinImagen>
+          <div class="sin-imagen">
+            <ion-icon name="image-outline" size="large"></ion-icon>
+          </div>
+        </ng-template>
+      </div>
+      <ion-label>
+        <div class="pais-info">
+          <h2>
+            <ion-icon name="flag-outline"></ion-icon>
+            {{ pais.nombre || 'Sin nombre' }}
+          </h2>
+          <div class="pais-detalles">
+            <span *ngIf="pais.codigo">
+              <ion-icon name="pricetag-outline"></ion-icon>
+              {{ pais.codigo }}
+            </span>
+            <span *ngIf="pais.continente">
+              <ion-icon name="earth-outline"></ion-icon>
+              {{ pais.continente }}
+            </span>
+            <span *ngIf="pais.poblacion">
+              <ion-icon name="people-outline"></ion-icon>
+              {{ pais.poblacion | number:'1.0-0' }}
+            </span>
+          </div>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más países...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-list>
+
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Atras</ion-button>
+        </ion-buttons>
+        <ion-title>
+          Detalles del País
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <app-paises-view *ngIf="paisIdSeleccionado" [paisId]="paisIdSeleccionado"></app-paises-view>
+    </ion-content>
+  </ng-template>
+</ion-modal>

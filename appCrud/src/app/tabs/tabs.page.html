@@ -1,0 +1,47 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <!-- Tabs para todos los usuarios logueados (común y admin) -->
+    <ng-container *ngIf="isLoggedIn">
+      <ion-tab-button tab="inicio" href="/tabs/inicio">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="paises" href="/tabs/paises">
+        <ion-icon name="earth"></ion-icon>
+        <ion-label>Países</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="ciudades" href="/tabs/ciudades">
+        <ion-icon name="business"></ion-icon>
+        <ion-label>Ciudades</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <!-- Tabs solo para usuario común -->
+    <ng-container *ngIf="isLoggedIn && !isAdmin">
+      <ion-tab-button tab="favoritos" href="/tabs/favoritos">
+        <ion-icon name="heart"></ion-icon>
+        <ion-label>Favoritos</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="mis-visitas" href="/tabs/mis-visitas">
+        <ion-icon name="footsteps"></ion-icon>
+        <ion-label>Mis Visitas</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <!-- Tab solo para administrador -->
+    <ng-container *ngIf="isLoggedIn && isAdmin">
+      <ion-tab-button tab="admin" href="/tabs/admin">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>Admin</ion-label>
+      </ion-tab-button>
+    </ng-container>
+
+    <!-- Solo Inicio y Login para no logueados -->
+    <ng-container *ngIf="!isLoggedIn">
+      <ion-tab-button tab="inicio" href="/tabs/inicio">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+    </ng-container>
+  </ion-tab-bar>
+</ion-tabs>

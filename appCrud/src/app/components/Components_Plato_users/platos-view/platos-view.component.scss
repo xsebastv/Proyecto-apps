@@ -1,0 +1,72 @@
+// Ejemplo para ambos archivos SCSS
+
+.plato-thumb {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e3f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+  box-shadow: 0 2px 8px rgba(58,123,213,0.08);
+}
+.plato-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.sin-imagen {
+  width: 100%;
+  height: 100%;
+  color: #b0b0b0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  background: #f0f0f0;
+}
+.plato-info h2, .plato-titulos h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #3a7bd5;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plato-detalles, .info-extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 1em;
+  color: #444;
+  margin-top: 2px;
+  flex-direction: column;
+}
+.plato-detalles ion-icon, .info-extra ion-icon {
+  margin-right: 4px;
+  color: #3a7bd5;
+}
+@media (prefers-color-scheme: dark) {
+  .plato-thumb {
+    background: #23272f;
+  }
+  .sin-imagen {
+    background: #23272f;
+    color: #888;
+  }
+  .plato-info h2, .plato-titulos h2 {
+    color: #90caf9;
+  }
+  .plato-detalles, .info-extra {
+    color: #e3f0ff;
+  }
+  .plato-detalles ion-icon, .info-extra ion-icon {
+    color: #90caf9;
+  }
+}

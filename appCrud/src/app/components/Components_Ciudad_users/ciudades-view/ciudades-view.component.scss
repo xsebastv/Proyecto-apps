@@ -1,0 +1,118 @@
+.ciudad-thumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.ciudad-thumb img {
+  width: 90%;
+  max-width: 380px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  border: 3px solid #3a7bd5;
+}
+.sin-imagen {
+  width: 90%;
+  max-width: 380px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  color: #888;
+  border-radius: 18px;
+  font-size: 1.2em;
+  border: 2px dashed #b0b0b0;
+  gap: 8px;
+}
+.ciudad-titulos {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.ciudad-titulos h2 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #3a7bd5;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ciudad-titulos h3 {
+  font-size: 1.2em;
+  color: #222;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.ver-mapa-btn {
+  margin: 14px 0 10px 0;
+  --background: #e3f0ff;
+  border-radius: 10px;
+  font-weight: bold;
+  --color: #3a7bd5;
+}
+.mapa-container {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.mapbox-map {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+}
+.info-extra {
+  margin-top: 14px;
+  font-size: 1.1em;
+  color: #444;
+  p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px 0;
+  }
+}
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
+// MODO OSCURO
+@media (prefers-color-scheme: dark) {
+  .ciudad-thumb img {
+    border: 3px solid #90caf9;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.40);
+  }
+  .sin-imagen {
+    background: #23272f;
+    color: #b0b0b0;
+    border: 2px dashed #444;
+  }
+  .ciudad-titulos h2 {
+    color: #90caf9;
+  }
+  .ciudad-titulos h3 {
+    color: #e3f0ff;
+  }
+  .ver-mapa-btn {
+    --background: #23272f;
+    --color: #90caf9;
+  }
+  .mapa-container {
+    background: #181c22;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.40);
+  }
+  .info-extra {
+    color: #e3f0ff;
+  }
+}

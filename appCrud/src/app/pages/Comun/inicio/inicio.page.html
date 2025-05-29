@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Inicio</ion-title>
+    <ion-buttons slot="end">
+      <ng-container *ngIf="!isLoggedIn">
+        <ion-button (click)="goToLogin()">Iniciar Sesión</ion-button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <ion-avatar>
+          <img [src]="userImage" alt="Foto de perfil" />
+        </ion-avatar>
+        <span 
+          class="user-name-span"
+          (click)="presentPopover($event)"
+        >
+          {{ userName }}
+        </span>
+      </ng-container>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="main-content" class="ion-padding" [fullscreen]="true">
+  <img />
+</ion-content>

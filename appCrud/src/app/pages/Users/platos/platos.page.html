@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Platos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Platos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-platos-list
+    [platos]="platos"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo"
+  ></app-platos-list>
+</ion-content>

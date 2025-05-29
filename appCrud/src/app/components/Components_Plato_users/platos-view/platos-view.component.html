@@ -1,0 +1,48 @@
+<ion-card *ngIf="plato">
+  <ion-card-content>
+    <div class="plato-thumb">
+      <img *ngIf="plato.imagen" [src]="plato.imagen" alt="Imagen plato" />
+      <div *ngIf="!plato.imagen" class="sin-imagen">
+        <ion-icon name="image-outline" size="large"></ion-icon>
+        Sin imagen
+      </div>
+    </div>
+    <div class="plato-titulos">
+      <h2>
+        <ion-icon name="restaurant-outline"></ion-icon>
+        {{ plato.nombre }}
+      </h2>
+      <h3>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        {{ plato.precio | currency:'COP':'symbol':'1.0-0' }}
+      </h3>
+    </div>
+    <div class="info-extra">
+      <p>
+        <ion-icon name="document-text-outline"></ion-icon>
+        <strong>Descripción:</strong> {{ plato.descripcion }}
+      </p>
+      <p *ngIf="plato.pais">
+        <ion-icon name="flag-outline"></ion-icon>
+        <strong>País:</strong> {{ getNombre(plato.pais) }}
+      </p>
+      <p *ngIf="plato.ciudad">
+        <ion-icon name="business-outline"></ion-icon>
+        <strong>Ciudad:</strong> {{ getNombre(plato.ciudad) }}
+      </p>
+      <p>
+        <ion-icon [name]="plato.disponible ? 'checkmark-circle-outline' : 'close-circle-outline'"></ion-icon>
+        <strong>Disponible:</strong> {{ plato.disponible ? 'Sí' : 'No' }}
+      </p>
+      <p>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <strong>ID:</strong> {{ plato._id }}
+      </p>
+    </div>
+  </ion-card-content>
+</ion-card>
+<ion-card *ngIf="!plato">
+  <ion-card-content>
+    <ion-spinner></ion-spinner> Cargando información del plato...
+  </ion-card-content>
+</ion-card>

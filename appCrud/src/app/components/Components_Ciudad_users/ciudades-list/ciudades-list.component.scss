@@ -1,0 +1,22 @@
+.ciudad-item {
+  display: flex;
+  align-items: center;
+}
+
+.ciudad-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e7ef;
+  flex-shrink: 0;
+}
+.ciudad-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

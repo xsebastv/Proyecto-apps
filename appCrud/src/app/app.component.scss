@@ -1,0 +1,39 @@
+ion-tab-bar {
+  --height: 60px;
+  font-size: 18px;
+}
+
+ion-tab-button {
+  white-space: normal !important; // Permite saltos de línea
+  flex-direction: column;         // Icono arriba, texto abajo
+  align-items: center;
+  justify-content: center;
+}
+
+ion-tab-button .tab-button-text {
+  text-align: center;
+  font-size: 1em;
+  line-height: 1.1;
+  word-break: break-word;         // Rompe palabras largas
+}
+
+/* Mejoras visuales para el tab activo */
+ion-tab-button.ion-selected {
+  color: var(--ion-color-primary, #3880ff);
+  font-weight: bold;
+}
+
+/* Responsive: tablets y móviles */
+@media (max-width: 600px) {
+  ion-tab-bar {
+    --height: 48px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  ion-tab-bar {
+    --height: 42px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,136 @@
+ion-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f6f8fa;
+}
+
+form {
+  width: 100%;
+  max-width: 350px;
+  margin: 40px auto 0 auto;
+  background: #ffffff;
+  padding: 32px 24px 24px 24px;
+  border-radius: 18px;
+}
+
+ion-item {
+  --background: transparent;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  --padding-end: 0;
+  min-height: 72px;
+  align-items: flex-start;
+}
+
+ion-label {
+  font-weight: 600;
+  color: #222;
+  font-size: 1.05em;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: initial !important;
+  width: 100%;
+  display: block;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  z-index: 2;
+  position: relative;
+}
+
+ion-input {
+  font-size: 16px;
+  background: #f6f8fa;
+  border-radius: 6px;
+  color: #222;
+  padding: 10px 12px 6px 12px;
+  min-height: 40px;
+  line-height: 1.4;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  z-index: 1;
+  position: relative;
+}
+
+ion-button[type="submit"] {
+  width: 100%;
+  margin-top: 18px;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: 10px;
+  background: #22223b;
+  color: #fff;
+}
+
+.aux-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+ion-title {
+  text-align: center;
+  color: #22223b;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 18px;
+  margin-top: 10px;
+  width: 100%;
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 500px) {
+  form {
+    padding: 16px 4px 12px 4px;
+    max-width: 98vw;
+  }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    background: #181a20;
+  }
+
+  form {
+    background: #23263a;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+
+  ion-label {
+    color: #fff;
+  }
+
+  ion-title {
+    color: #fff;
+  }
+
+  ion-input {
+    background: #23263a;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px 12px 6px 12px;
+    min-height: 40px;
+    line-height: 1.4;
+  }
+
+  ion-item {
+    --background: transparent;
+    --highlight-background: transparent;
+    min-height: 72px;
+    align-items: flex-start;
+  }
+
+  ion-button[type="submit"] {
+    background: #fff !important;
+    color: #23263a !important;
+  }
+}

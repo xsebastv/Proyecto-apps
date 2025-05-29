@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goToLogin()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="register()">
+    <!-- Campo de nombre -->
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="nombre"
+        name="nombre"
+        required
+        placeholder="Ingresa tu nombre"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Campo de correo electrónico -->
+    <ion-item>
+      <ion-label position="stacked">Correo electrónico</ion-label>
+      <ion-input
+        type="email"
+        [(ngModel)]="correo"
+        name="correo"
+        required
+        placeholder="Ingresa tu correo"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Campo de contraseña -->
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+        placeholder="Ingresa tu contraseña"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Campo de confirmación de contraseña -->
+    <ion-item>
+      <ion-label position="stacked">Confirmar Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        required
+        placeholder="Confirma tu contraseña"
+      ></ion-input>
+    </ion-item>
+
+    <!-- Botón para registrarse -->
+    <ion-button expand="full" type="submit" [disabled]="form.invalid">
+      Registrarse
+    </ion-button>
+  </form>
+
+  <ion-button expand="full" fill="clear" (click)="goToLogin()">
+    Ya tengo una cuenta
+  </ion-button>
+</ion-content>

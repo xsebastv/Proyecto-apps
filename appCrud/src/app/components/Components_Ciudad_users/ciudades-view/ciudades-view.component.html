@@ -1,0 +1,45 @@
+<ion-card *ngIf="ciudad">
+  <ion-card-content>
+    <div class="ciudad-thumb">
+      <img *ngIf="ciudad.imagen" [src]="ciudad.imagen" alt="Imagen ciudad" />
+      <div *ngIf="!ciudad.imagen" class="sin-imagen">
+        <ion-icon name="image-outline" size="large"></ion-icon>
+        Sin imagen
+      </div>
+    </div>
+    <div class="ciudad-titulos">
+      <h2>
+        <ion-icon name="business-outline"></ion-icon>
+        {{ ciudad.nombre }}
+      </h2>
+      <h3 *ngIf="ciudad.pais">
+        <ion-icon name="flag-outline"></ion-icon>
+        {{ ciudad.pais.nombre }}
+      </h3>
+    </div>
+    <ion-item button detail lines="none" class="ver-mapa-btn" (click)="toggleMapa()">
+      <ion-icon name="map-outline" slot="start"></ion-icon>
+      <ion-label>Ver en el mapa</ion-label>
+      <ion-icon [name]="verMapa ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+    </ion-item>
+    <div *ngIf="verMapa && ciudad.latitud && ciudad.longitud" class="mapa-container">
+      <div #mapContainer class="mapbox-map"></div>
+    </div>
+    <div class="info-extra">
+      <p>
+        <ion-icon name="people-outline"></ion-icon>
+        <strong>Población:</strong>
+        {{ ciudad.poblacion ? formatPoblacion(ciudad.poblacion) : 'No disponible' }}
+      </p>
+      <p>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <strong>ID:</strong> {{ ciudad._id }}
+      </p>
+    </div>
+  </ion-card-content>
+</ion-card>
+<ion-card *ngIf="!ciudad">
+  <ion-card-content>
+    <ion-spinner></ion-spinner> Cargando información de la ciudad...
+  </ion-card-content>
+</ion-card>

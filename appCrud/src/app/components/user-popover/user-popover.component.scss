@@ -1,0 +1,31 @@
+:host ::ng-deep .popover-viewport {
+  width: 250px !important;
+  min-width: 100px !important;
+  max-width: 90vw !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+  left: 0 !important;           // Pega el popover al borde izquierdo
+  right: auto !important;
+  transform: translateY(8px) !important; // Lo baja justo debajo del trigger
+  top: 100% !important;         // Asegura que salga debajo del trigger
+}
+
+:host ::ng-deep .popover-list-small,
+:host .popover-list-small {
+  width: 250px !important;
+  min-width: 100px !important;
+  max-width: 90vw !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+ion-item {
+  --min-height: 36px;
+  font-size: 14px;
+}
+
+ion-icon {
+  font-size: 28px;
+}

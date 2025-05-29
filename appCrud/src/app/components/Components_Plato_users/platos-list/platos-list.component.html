@@ -1,0 +1,71 @@
+<ion-list class="ion-padding-top">
+  <ion-list-header>
+    <ion-label>
+      <strong>{{ titulo }} - {{ subtitulo }}</strong>
+    </ion-label>
+  </ion-list-header>
+
+  <ion-card *ngFor="let plato of platosMostrados">
+    <ion-item lines="none" class="plato-item" (click)="verPlato(plato._id!)">
+      <div class="plato-thumb">
+        <img *ngIf="plato.imagen; else sinImagen" [src]="plato.imagen" alt="Imagen plato" />
+        <ng-template #sinImagen>
+          <div class="sin-imagen">
+            <ion-icon name="image-outline" size="large"></ion-icon>
+          </div>
+        </ng-template>
+      </div>
+      <ion-label>
+        <div class="plato-info">
+          <h2>
+            <ion-icon name="restaurant-outline"></ion-icon>
+            {{ plato.nombre || 'Sin nombre' }}
+          </h2>
+          <div class="plato-detalles">
+            <span>
+              <ion-icon name="pricetag-outline"></ion-icon>
+              {{ plato.precio | currency:'COP':'symbol':'1.0-0' }}
+            </span>
+            <span *ngIf="plato.pais">
+              <ion-icon name="flag-outline"></ion-icon>
+              {{ getNombre(plato.pais) }}
+            </span>
+            <span *ngIf="plato.ciudad">
+              <ion-icon name="business-outline"></ion-icon>
+              {{ getNombre(plato.ciudad) }}
+            </span>
+            <span>
+              <ion-icon [name]="plato.disponible ? 'checkmark-circle-outline' : 'close-circle-outline'"></ion-icon>
+              {{ plato.disponible ? 'Disponible' : 'No disponible' }}
+            </span>
+          </div>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más platos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-list>
+
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Atras</ion-button>
+        </ion-buttons>
+        <ion-title>
+          Detalles del Plato
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <app-platos-view *ngIf="platoIdSeleccionado" [platoId]="platoIdSeleccionado"></app-platos-view>
+    </ion-content>
+  </ng-template>
+</ion-modal>

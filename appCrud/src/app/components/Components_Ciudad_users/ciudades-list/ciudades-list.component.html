@@ -1,0 +1,51 @@
+<!-- Solo muestra, sin botones de editar/crear/eliminar -->
+<ion-list class="ion-padding-top">
+  <ion-list-header>
+    <ion-label>
+      <strong>{{ titulo }} - {{ subtitulo }}</strong>
+    </ion-label>
+  </ion-list-header>
+
+  <ion-card *ngFor="let ciudad of ciudadesMostradas">
+    <ion-item lines="none" class="ciudad-item" (click)="verCiudad(ciudad._id)">
+      <div class="ciudad-thumb">
+        <img [src]="ciudad.imagen" alt="Imagen ciudad" *ngIf="ciudad.imagen; else sinImagen" />
+        <ng-template #sinImagen>
+          <div style="color:gray;">Sin imagen</div>
+        </ng-template>
+      </div>
+      <ion-label>
+        <h2>{{ ciudad.nombre || 'Sin nombre' }}</h2>
+        <p *ngIf="ciudad.pais">País: {{ ciudad.pais.nombre }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-card-content>
+      <p><strong>ID:</strong> {{ ciudad._id || 'Sin ID' }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más ciudades...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-list>
+
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Atras</ion-button>
+        </ion-buttons>
+        <ion-title>
+          Detalles de la Ciudad
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <app-ciudades-view *ngIf="ciudadIdSeleccionada" [ciudadId]="ciudadIdSeleccionada"></app-ciudades-view>
+    </ion-content>
+  </ng-template>
+</ion-modal>
