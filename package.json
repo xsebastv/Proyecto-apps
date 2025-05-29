@@ -1,0 +1,28 @@
+{
+  "name": "mer-api-rest",
+  "version": "1.0.0",
+  "description": "API REST for managing cities, famous personalities, countries, dishes, and more.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mariadb": "^2.5.6",
+    "mongoose": "^8.13.0",
+    "mysql2": "^3.13.0",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
