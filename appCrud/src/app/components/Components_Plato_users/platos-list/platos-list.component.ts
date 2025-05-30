@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';  // IMPORTA Input
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { PlatosService } from 'src/app/services/platos.service';
@@ -17,10 +17,12 @@ import { PlatosViewComponent } from '../platos-view/platos-view.component';
   ]
 })
 export class PlatosListComponent implements OnInit {
+  @Input() platos: any[] = [];         // <-- Input para los platos recibidos
+  @Input() titulo: string = 'Platos típicos';  // <-- Input para título
+  @Input() subtitulo: string = '';     // <-- Input para subtítulo
+
   platosMostrados: any[] = [];
   paisId: string = '';
-  titulo = 'Platos típicos';
-  subtitulo = '';
   isModalOpen = false;
   platoIdSeleccionado: string | null = null;
 
@@ -54,14 +56,12 @@ export class PlatosListComponent implements OnInit {
   }
 
   getNombre(obj: any): string {
-    // Si obj es un string, lo retorna, si es un objeto, retorna el nombre
     if (!obj) return '';
     if (typeof obj === 'string') return obj;
     return obj.nombre || '';
   }
 
   loadData(event: any) {
-    // Si tienes paginación, implementa aquí la lógica para cargar más platos
     event.target.complete();
   }
 }
