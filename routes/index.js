@@ -2,7 +2,6 @@ const { Router } = require('express');
 const router = Router();
 
 router.use('/auth', require('./auth.route'));
-
 router.use('/ciudades', require('./ciudades.route'));
 router.use('/famosos', require('./famosos.route'));
 router.use('/menu_sitio', require('./menu_sitio.route'));
@@ -13,6 +12,6 @@ router.use('/sitios', require('./sitios.route'));
 router.use('/famoso_tag', require('./famosoTag.route'));
 router.use('/visita', require('./visita.route'));
 router.use('/favoritos', require('./favoritos.route'));
-app.use('/api/estadisticas', require('./routes/estadisticas.route'));
+router.use('/estadisticas', require('./estadisticas.route'));
 
 module.exports = router;
