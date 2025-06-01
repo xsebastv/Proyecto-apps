@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'platos',
-    loadComponent: () => import('./pages/Users/platos/platos.page').then( m => m.PlatosPage)
+    loadComponent: () => import('src/app/components/Components_Pais_users/platos/platos.component').then( m => m.PlatosComponent)
   },
   {
     path: 'platos-list',

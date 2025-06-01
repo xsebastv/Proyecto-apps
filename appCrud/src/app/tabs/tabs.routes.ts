@@ -26,11 +26,6 @@ export const routes: Routes = [
           import('../pages/Users/sitios/sitios.page').then((m) => m.SitiosPage),
       },
       {
-        path: 'platos',
-        loadComponent: () =>
-          import('../pages/Users/platos/platos.page').then((m) => m.PlatosPage),
-      },
-      {
         path: 'famosos',
         loadComponent: () =>
           import('../pages/Users/famosos/famosos.page').then((m) => m.FamososPage),

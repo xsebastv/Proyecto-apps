@@ -65,7 +65,7 @@ export class PaisesViewComponent implements OnChanges {
 }
 
  verTodosPlatos() {
-    this.router.navigate(['/platos'], { queryParams: { pais: this.paisId } });
+    this.router.navigate(['/platos-list'], { queryParams: { pais: this.paisId } });
   }
 
   formatPoblacion(poblacion: number): string {

@@ -8,8 +8,8 @@ import { PlatosListComponent } from 'src/app/components/Components_Plato_users/p
 
 @Component({
   selector: 'app-platos',
-  templateUrl: './platos.page.html',
-  styleUrls: ['./platos.page.scss'],
+  templateUrl: './platos.component.html',
+  styleUrls: ['./platos.component.scss'],
   standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
@@ -17,7 +17,7 @@ import { PlatosListComponent } from 'src/app/components/Components_Plato_users/p
     PlatosListComponent
   ]
 })
-export class PlatosPage implements OnInit {
+export class PlatosComponent implements OnInit {
   platos: any[] = [];
   paisId: string | null = null;
   titulo: string = 'Platos';

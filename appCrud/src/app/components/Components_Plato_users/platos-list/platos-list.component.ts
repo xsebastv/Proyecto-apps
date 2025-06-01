@@ -17,9 +17,9 @@ import { PlatosViewComponent } from '../platos-view/platos-view.component';
   ]
 })
 export class PlatosListComponent implements OnInit {
-  @Input() platos: any[] = [];         // <-- Input para los platos recibidos
-  @Input() titulo: string = 'Platos típicos';  // <-- Input para título
-  @Input() subtitulo: string = '';     // <-- Input para subtítulo
+  @Input() platos: any[] = [];         
+  @Input() titulo: string = 'Platos típicos'; 
+  @Input() subtitulo: string = '';    
 
   platosMostrados: any[] = [];
   paisId: string = '';
