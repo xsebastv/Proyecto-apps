@@ -1,23 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
-import { Plato } from 'src/app/interfaces/plato.interface';
 import { PlatosService } from 'src/app/services/platos.service';
 import { PaisesService } from 'src/app/services/paises.service';
 import { CiudadesBDService } from 'src/app/services/ciudades-bd.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-platos-view',
-  templateUrl: './platos-view.component.html',
-  styleUrls: ['./platos-view.component.scss'],
+  selector: 'app-platos-view-page',
+  templateUrl: './platos-view-page.component.html',
+  styleUrls: ['./platos-view-page.component.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class PlatosViewComponent implements OnInit {
+export class PlatosViewPageComponent implements OnInit {
   @Input() platoId!: string;
-  plato?: Plato;
+  plato: any;
   nombrePais: string = '';
   nombreCiudad: string = '';
   ciudadId: string | null = null;
@@ -26,27 +24,29 @@ export class PlatosViewComponent implements OnInit {
     private platosService: PlatosService,
     private paisesService: PaisesService,
     private ciudadesService: CiudadesBDService,
-    private router: Router,
-    private route: ActivatedRoute
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
-    // Si platoId viene por input úsalo, si no, toma el de la ruta
+    // platoId puede venir por @Input (modal) o por ruta (router)
     if (!this.platoId) {
-      this.platoId = this.route.snapshot.paramMap.get('id')!;
+      // fallback por si se usa como página (no modal)
+      // window.location.pathname: /tabs/ciudades/:ciudadId/plato/:id
+      const pathParts = window.location.pathname.split('/');
+      const idx = pathParts.indexOf('plato');
+      if (idx !== -1 && pathParts[idx + 1]) {
+        this.platoId = pathParts[idx + 1];
+      }
     }
-    this.cargarPlato();
-    // Recupera el id de la ciudad desde el estado de navegación si existe
-    this.ciudadId = history.state.ciudadId || null;
+    if (this.platoId) {
+      this.cargarPlato();
+    }
   }
 
   cargarPlato() {
-    if (!this.platoId) return;
     this.platosService.getUnPlato(this.platoId).subscribe((data: any) => {
       this.plato = data;
       this.cargarNombrePaisYCiudad();
-    }, error => {
-      console.error('Error al obtener el plato:', error);
     });
   }
 
@@ -72,10 +72,6 @@ export class PlatosViewComponent implements OnInit {
   }
 
   volverACiudad() {
-    if (this.ciudadId) {
-      this.router.navigate(['/ciudades', this.ciudadId]);
-    } else {
-      this.router.navigate(['/tabs/ciudades']);
-    }
+    this.modalCtrl.dismiss();
   }
 }

@@ -36,6 +36,114 @@
         <strong>ID:</strong> {{ ciudad._id }}
       </p>
     </div>
+
+    <!-- Acordeones de Platos, Famosos y Sitios -->
+    <ion-accordion-group>
+      <!-- Platos típicos -->
+      <ion-accordion value="platos-tipicos">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <ion-icon name="restaurant-outline" color="danger"></ion-icon>
+            <span class="platos-titulo">Platos típicos</span>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding platos-tipicos" slot="content">
+          <ng-container *ngIf="platosTipicos.length > 0; else sinPlatos">
+            <ion-list>
+              <ion-item *ngFor="let plato of platosTipicos" button (click)="verPlato(plato)">
+                <ion-avatar slot="start">
+                  <img *ngIf="plato.imagen" [src]="plato.imagen" alt="Imagen plato" />
+                  <ion-icon *ngIf="!plato.imagen" name="restaurant-outline" color="medium"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <strong>{{ plato.nombre }}</strong>
+                  <p>
+                    <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+                    {{ plato.descripcion }}
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+          <ng-template #sinPlatos>
+            <ion-text color="medium">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              No hay platos típicos registrados para esta ciudad.
+            </ion-text>
+          </ng-template>
+        </div>
+      </ion-accordion>
+
+      <!-- Famosos -->
+      <ion-accordion value="famosos">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <ion-icon name="person-outline" color="warning"></ion-icon>
+            <span class="platos-titulo">Famosos</span>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding platos-tipicos" slot="content">
+          <ng-container *ngIf="famosos.length > 0; else sinFamosos">
+            <ion-list>
+              <ion-item *ngFor="let famoso of famosos" button (click)="verFamoso(famoso)">
+                <ion-avatar slot="start">
+                  <img *ngIf="famoso.imagen" [src]="famoso.imagen" alt="Imagen famoso" />
+                  <ion-icon *ngIf="!famoso.imagen" name="person-outline" color="medium"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <strong>{{ famoso.nombre }}</strong>
+                  <p>
+                    <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+                    {{ famoso.descripcion }}
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+          <ng-template #sinFamosos>
+            <ion-text color="medium">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              No hay famosos registrados para esta ciudad.
+            </ion-text>
+          </ng-template>
+        </div>
+      </ion-accordion>
+
+      <!-- Sitios -->
+      <ion-accordion value="sitios">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <ion-icon name="location-outline" color="success"></ion-icon>
+            <span class="platos-titulo">Sitios</span>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding platos-tipicos" slot="content">
+          <ng-container *ngIf="sitios.length > 0; else sinSitios">
+            <ion-list>
+              <ion-item *ngFor="let sitio of sitios" button (click)="verSitio(sitio)">
+                <ion-avatar slot="start">
+                  <img *ngIf="sitio.imagen" [src]="sitio.imagen" alt="Imagen sitio" />
+                  <ion-icon *ngIf="!sitio.imagen" name="location-outline" color="medium"></ion-icon>
+                </ion-avatar>
+                <ion-label>
+                  <strong>{{ sitio.nombre }}</strong>
+                  <p>
+                    <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+                    {{ sitio.descripcion }}
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+          <ng-template #sinSitios>
+            <ion-text color="medium">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              No hay sitios registrados para esta ciudad.
+            </ion-text>
+          </ng-template>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-card-content>
 </ion-card>
 <ion-card *ngIf="!ciudad">

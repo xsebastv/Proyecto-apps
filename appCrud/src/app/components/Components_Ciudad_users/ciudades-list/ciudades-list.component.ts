@@ -16,7 +16,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonButtons,
-  IonButton
+  IonButton,
+  IonIcon // <-- IMPORTA IonIcon
 } from '@ionic/angular/standalone';
 import { IonModal } from '@ionic/angular';
 import { Ciudad } from 'src/app/interfaces/ciudad.interface';
@@ -45,6 +46,7 @@ import { CiudadesViewComponent } from '../ciudades-view/ciudades-view.component'
     IonInfiniteScrollContent,
     IonButtons,
     IonButton,
+    IonIcon, // <-- AGREGA IonIcon AQUÍ
     CiudadesViewComponent
   ]
 })

@@ -7,8 +7,8 @@ import {
   IonInfiniteScroll, IonInfiniteScrollContent, IonButtons, IonButton, IonIcon
 } from '@ionic/angular/standalone';
 import { IonModal } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pais } from 'src/app/interfaces/pais.interface';
-// IMPORTA EL COMPONENTE CON LA RUTA CORRECTA:
 import { PaisesViewComponent } from '../paises-view/paises-view.component';
 
 @Component({
@@ -39,10 +39,34 @@ export class PaisesListComponent implements OnInit, OnChanges {
   pageSize: number = 10;
   currentPage: number = 0;
 
-  ngOnInit() {
-    this.resetInfiniteScroll();
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
+ngOnInit() {
+  this.resetInfiniteScroll();
+  this.route.queryParams.subscribe(params => {
+    const paisId = params['pais'];
+    if (paisId) {
+      // Fuerza el cierre y reapertura del modal para asegurar que siempre se muestre
+      if (this.isModalOpen) {
+        this.setOpen(false);
+        setTimeout(() => {
+          this.verPais(paisId);
+        }, 0);
+      } else {
+        this.verPais(paisId);
+      }
+    } else {
+      // Si no hay paisId en query, cierra el modal si está abierto
+      if (this.isModalOpen) {
+        this.setOpen(false);
+        this.paisIdSeleccionado = null;
+      }
+    }
+  });
+}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['paises']) {
       this.resetInfiniteScroll();
@@ -72,10 +96,21 @@ export class PaisesListComponent implements OnInit, OnChanges {
   verPais(id: string) {
     this.paisIdSeleccionado = id;
     this.setOpen(true);
+    // Actualiza el query param 'pais' al abrir el modal
+    this.router.navigate([], {
+      queryParams: { pais: id },
+      queryParamsHandling: 'merge'
+    });
   }
 
   cancel() {
     this.setOpen(false);
+    // Limpia el query param 'pais' al cerrar el modal
+    this.router.navigate([], {
+      queryParams: { pais: null },
+      queryParamsHandling: 'merge'
+    });
+    this.paisIdSeleccionado = null;
   }
 
   onWillDismiss(event: any) {

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import {PlatosComponent} from './platos.component'
+import { FamososViewComponent } from './famosos-view.component';
 
-describe('PlatosComponent', () => {
-  let component: PlatosComponent;
-  let fixture: ComponentFixture<PlatosComponent>;
+describe('FamososViewComponent', () => {
+  let component: FamososViewComponent;
+  let fixture: ComponentFixture<FamososViewComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PlatosComponent],
+      imports: [FamososViewComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PlatosComponent);
+    fixture = TestBed.createComponent(FamososViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

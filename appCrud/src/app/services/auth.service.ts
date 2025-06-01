@@ -13,13 +13,18 @@ export class AuthService {
   private static readonly USER_IMG_KEY = 'userImg';
   private static readonly USER_ROLE_KEY = 'userRole';
 
+  private logoutTimeout: any = null;
+
   // BehaviorSubject para el estado de sesión
   private loggedIn$ = new BehaviorSubject<boolean>(!!localStorage.getItem(AuthService.TOKEN_KEY));
   get isLoggedIn$() {
     return this.loggedIn$.asObservable();
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Al iniciar el servicio, programa el logout si hay token
+    this.scheduleAutoLogout();
+  }
 
   // Método para registrar un nuevo usuario
   register(usuario: any): Observable<any> {
@@ -46,12 +51,49 @@ export class AuthService {
     if (token) {
       localStorage.setItem(AuthService.TOKEN_KEY, token);
       this.loggedIn$.next(true);
+      this.scheduleAutoLogout(); // Programa el logout automático
     }
   }
 
   // Obtiene el token desde localStorage
   getToken(): string | null {
     return localStorage.getItem(AuthService.TOKEN_KEY);
+  }
+
+  // Decodifica el token y obtiene la expiración (en ms)
+  getTokenExpiration(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const payload = token.split('.')[1];
+    if (!payload) return null;
+    try {
+      const decoded = JSON.parse(atob(payload));
+      return decoded.exp ? decoded.exp * 1000 : null; // exp en segundos, lo pasamos a ms
+    } catch {
+      return null;
+    }
+  }
+
+  // Programa el cierre de sesión automático cuando expire el token
+  scheduleAutoLogout(): void {
+    if (this.logoutTimeout) {
+      clearTimeout(this.logoutTimeout);
+    }
+    const exp = this.getTokenExpiration();
+    if (exp) {
+      const timeout = exp - Date.now();
+      if (timeout > 0) {
+        this.logoutTimeout = setTimeout(() => {
+          this.logout();
+          window.location.href = '/login';
+          alert('Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
+        }, timeout);
+      } else {
+        // Si ya expiró, cerrar sesión inmediatamente
+        this.logout();
+        window.location.href = '/login';
+      }
+    }
   }
 
   // Guarda el nombre del usuario en localStorage
@@ -100,5 +142,9 @@ export class AuthService {
     localStorage.removeItem(AuthService.USER_IMG_KEY);
     localStorage.removeItem(AuthService.USER_ROLE_KEY);
     this.loggedIn$.next(false);
+    if (this.logoutTimeout) {
+      clearTimeout(this.logoutTimeout);
+      this.logoutTimeout = null;
+    }
   }
 }

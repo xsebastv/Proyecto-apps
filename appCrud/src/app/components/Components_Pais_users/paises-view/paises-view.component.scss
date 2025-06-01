@@ -1,58 +1,294 @@
-.platos-tipicos {
+.pais-card {
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(58,123,213,0.13);
+  margin-top: 28px;
+  padding: 0;
+  text-align: center;
+  background: #fff;
+  transition: background 0.3s;
+}
+
+.pais-thumb {
+  width: 180px;
+  height: 180px;
+  min-width: 180px;
+  min-height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e3f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px auto;
+  box-shadow: 0 2px 12px rgba(58,123,213,0.13);
+  border: 5px solid #fff;
+  position: relative;
+}
+
+.pais-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.sin-imagen {
+  width: 100%;
+  height: 100%;
+  color: #b0b0b0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2em;
+  background: #f0f0f0;
+  border-radius: 50%;
+}
+
+.pais-titulos {
+  margin-bottom: 18px;
+}
+
+.pais-titulos h2 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #3a7bd5;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: 0.5px;
+}
+
+.pais-titulos h3 {
+  font-size: 1.1em;
+  color: #666;
+  margin: 0 0 2px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.pais-titulos .label {
+  color: #3a7bd5;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.pais-titulos .valor {
+  color: #222;
+  font-weight: 500;
+}
+
+.pais-info-extra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.pais-info-extra .info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.08em;
+  color: #444;
+  justify-content: center;
+}
+
+.pais-info-extra .info-row .label {
+  color: #3a7bd5;
+  font-weight: 600;
+}
+
+.pais-info-extra .info-row .valor {
+  color: #222;
+  font-weight: 500;
+}
+
+.pais-info-extra .info-row ion-icon {
+  font-size: 1.3em;
+  margin-right: 2px;
+}
+
+.ion-accordion-group {
   margin-top: 18px;
-  h4 {
-    margin-bottom: 8px;
-    color: #3a7bd5;
-    text-align: center;
-    font-weight: bold;
+}
+
+.platos-tipicos ion-list {
+  background: transparent;
+}
+
+.platos-tipicos ion-item {
+  --background: #f7faff;
+  color: #222;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(58,123,213,0.07);
+  transition: box-shadow 0.2s;
+}
+
+.platos-tipicos ion-item:hover {
+  box-shadow: 0 4px 12px rgba(58,123,213,0.13);
+}
+
+.platos-tipicos ion-avatar {
+  min-width: 48px;
+  min-height: 48px;
+  width: 48px;
+  height: 48px;
+  margin-right: 10px;
+  background: #e3f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platos-tipicos ion-avatar img {
+  border-radius: 50%;
+  border: 2px solid #3a7bd5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.platos-tipicos ion-avatar ion-icon {
+  font-size: 2em;
+  color: #b0b0b0;
+}
+
+.platos-tipicos ion-label strong {
+  color: #3a7bd5;
+  font-size: 1.1em;
+}
+
+.platos-tipicos ion-label p {
+  color: #444;
+  margin: 2px 0;
+  font-size: 0.98em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.platos-tipicos ion-label p ion-icon {
+  margin-right: 4px;
+  color: #3a7bd5 !important;
+}
+
+.platos-tipicos ion-button {
+  margin-top: 10px;
+  --background: #fff;
+  --color: #3a7bd5;
+  border: 1px solid #3a7bd5;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.platos-tipicos ion-button:hover {
+  --background: #3a7bd5;
+  --color: #fff;
+}
+
+.platos-titulo {
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-left: 8px;
+}
+
+@media (max-width: 500px) {
+  .pais-card {
+    margin-top: 10px;
+    border-radius: 10px;
   }
-  ion-list {
-    background: transparent;
-    margin-bottom: 8px;
+  .pais-thumb {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    min-height: 120px;
   }
-  ion-item {
-    --background: transparent;
-    border-radius: 12px;
-    margin-bottom: 4px;
+  .pais-titulos h2 {
+    font-size: 1.3em;
   }
-  ion-avatar {
-    width: 40px;
-    height: 40px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    ion-icon {
-      font-size: 2em;
-      color: #3a7bd5;
-    }
-  }
-  ion-label {
-    margin-left: 8px;
-    strong {
-      font-size: 1.1em;
-      color: #222;
-    }
-    p {
-      font-size: 0.95em;
-      color: #666;
-      margin: 0;
-    }
-  }
-  ion-button {
-    margin-top: 8px;
+  .pais-titulos h3 {
+    font-size: 1em;
   }
 }
+
 @media (prefers-color-scheme: dark) {
-  .platos-tipicos h4 {
+  .pais-card {
+    background: #232a3a;
+    box-shadow: 0 4px 18px rgba(144,202,249,0.10);
+  }
+  .pais-thumb {
+    background: #23272f;
+    border: 5px solid #232a3a;
+  }
+  .pais-thumb img {
+    border-color: #90caf9;
+    box-shadow: 0 2px 8px rgba(144,202,249,0.15);
+  }
+  .sin-imagen {
+    background: #23272f;
+    color: #7a7a7a;
+  }
+  .pais-titulos h2 {
+    color: #90caf9;
+  }
+  .pais-titulos h3 {
+    color: #b0b0b0;
+  }
+  .pais-titulos .label {
+    color: #90caf9;
+  }
+  .pais-titulos .valor {
+    color: #fff;
+  }
+  .pais-info-extra .info-row {
+    color: #fff;
+  }
+  .pais-info-extra .info-row .label {
+    color: #90caf9;
+  }
+  .pais-info-extra .info-row .valor {
+    color: #fff;
+  }
+  .platos-tipicos ion-item {
+    --background: #232a3a;
+    color: #e3f0ff;
+    box-shadow: 0 1px 4px rgba(144,202,249,0.10);
+  }
+  .platos-tipicos ion-avatar {
+    background: #23272f;
+  }
+  .platos-tipicos ion-avatar img {
+    border-color: #90caf9;
+  }
+  .platos-tipicos ion-avatar ion-icon {
     color: #90caf9;
   }
   .platos-tipicos ion-label strong {
-    color: #e3f0ff;
+    color: #90caf9;
   }
   .platos-tipicos ion-label p {
     color: #b0b0b0;
+  }
+  .platos-tipicos ion-label p ion-icon {
+    color: #90caf9 !important;
+  }
+  .platos-tipicos ion-button {
+    --background: #232a3a;
+    --color: #90caf9;
+    border: 1px solid #90caf9;
+  }
+  .platos-tipicos ion-button:hover {
+    --background: #90caf9;
+    --color: #232a3a;
   }
 }

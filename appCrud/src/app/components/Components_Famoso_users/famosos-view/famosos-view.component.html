@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrarModal()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Detalles del Famoso
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="famoso">
+    <ion-card-content>
+      <div class="famoso-thumb grande">
+        <img *ngIf="famoso.imagen" [src]="famoso.imagen" alt="Imagen famoso" />
+        <div *ngIf="!famoso.imagen" class="sin-imagen">
+          <ion-icon name="person-outline" size="large"></ion-icon>
+          Sin imagen
+        </div>
+      </div>
+      <div class="famoso-titulos">
+        <h2>
+          <ion-icon name="person-outline"></ion-icon>
+          {{ famoso.nombre }}
+        </h2>
+        <h3 *ngIf="famoso.tipoFama">
+          <ion-icon name="star-outline"></ion-icon>
+          {{ famoso.tipoFama }}
+        </h3>
+      </div>
+      <ion-list lines="none" class="info-extra">
+        <ion-item *ngIf="famoso.biografia">
+          <ion-icon name="book-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Biografía:</span>
+            <div class="texto-biografia">{{ famoso.biografia }}</div>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso.descripcion">
+          <ion-icon name="document-text-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Descripción:</span>
+            <div>{{ famoso.descripcion }}</div>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso.ciudad">
+          <ion-icon name="business-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Ciudad:</span> {{ famoso.ciudad?.nombre || famoso.ciudad }}
+            <span *ngIf="famoso.ciudad?.pais">
+              <br>
+              <ion-icon name="flag-outline"></ion-icon>
+              <span class="titulo-campo">País:</span> {{ famoso.ciudad.pais?.nombre }}
+            </span>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso.nacionalidad">
+          <ion-icon name="earth-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Nacionalidad:</span> {{ famoso.nacionalidad }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso.fechaNacimiento">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Fecha de nacimiento:</span> {{ famoso.fechaNacimiento | date:'longDate' }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso.obras && famoso.obras.length">
+          <ion-icon name="albums-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">Obras destacadas:</span>
+            <ul>
+              <li *ngFor="let obra of famoso.obras">{{ obra }}</li>
+            </ul>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="famoso._id">
+          <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+          <ion-label>
+            <span class="titulo-campo">ID:</span> {{ famoso._id }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="!famoso">
+    <ion-card-content>
+      <ion-spinner></ion-spinner> Cargando información del famoso...
+    </ion-card-content>
+  </ion-card>
+</ion-content>

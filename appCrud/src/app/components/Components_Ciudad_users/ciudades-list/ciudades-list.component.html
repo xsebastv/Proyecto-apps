@@ -1,4 +1,3 @@
-<!-- Solo muestra, sin botones de editar/crear/eliminar -->
 <ion-list class="ion-padding-top">
   <ion-list-header>
     <ion-label>
@@ -9,18 +8,37 @@
   <ion-card *ngFor="let ciudad of ciudadesMostradas">
     <ion-item lines="none" class="ciudad-item" (click)="verCiudad(ciudad._id)">
       <div class="ciudad-thumb">
-        <img [src]="ciudad.imagen" alt="Imagen ciudad" *ngIf="ciudad.imagen; else sinImagen" />
+        <img *ngIf="ciudad.imagen; else sinImagen" [src]="ciudad.imagen" alt="Imagen ciudad" />
         <ng-template #sinImagen>
-          <div style="color:gray;">Sin imagen</div>
+          <div class="sin-imagen">
+            <ion-icon name="business-outline" size="large"></ion-icon>
+          </div>
         </ng-template>
       </div>
       <ion-label>
-        <h2>{{ ciudad.nombre || 'Sin nombre' }}</h2>
-        <p *ngIf="ciudad.pais">País: {{ ciudad.pais.nombre }}</p>
+        <div class="ciudad-info">
+          <h2>
+            <ion-icon name="business-outline"></ion-icon>
+            {{ ciudad.nombre || 'Sin nombre' }}
+          </h2>
+          <div class="ciudad-detalles">
+            <span *ngIf="ciudad.pais">
+              <ion-icon name="flag-outline"></ion-icon>
+              {{ ciudad.pais.nombre }}
+            </span>
+            <span *ngIf="ciudad.poblacion">
+              <ion-icon name="people-outline"></ion-icon>
+              {{ ciudad.poblacion | number:'1.0-0' }}
+            </span>
+          </div>
+        </div>
       </ion-label>
     </ion-item>
     <ion-card-content>
-      <p><strong>ID:</strong> {{ ciudad._id || 'Sin ID' }}</p>
+      <p>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <strong>ID:</strong> {{ ciudad._id || 'Sin ID' }}
+      </p>
     </ion-card-content>
   </ion-card>
 

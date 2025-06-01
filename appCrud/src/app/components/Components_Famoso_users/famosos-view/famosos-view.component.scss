@@ -1,0 +1,99 @@
+.famoso-thumb.grande {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #3880ff;
+    box-shadow: 0 2px 8px rgba(56,128,255,0.15);
+  }
+  .sin-imagen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #aaa;
+    font-size: 1.1em;
+    ion-icon {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+    }
+  }
+}
+
+.famoso-titulos {
+  text-align: center;
+  margin-bottom: 1rem;
+  h2, h3 {
+    margin: 0.2em 0;
+    font-weight: 600;
+    color: #fff;
+  }
+  h2 ion-icon, h3 ion-icon {
+    margin-right: 0.4em;
+    vertical-align: middle;
+  }
+}
+
+.info-extra {
+  margin-top: 1.2rem;
+  ion-item {
+    background: transparent !important;
+    --background: transparent !important;
+    color: #fff;
+    --color: #fff;
+    --inner-padding-end: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --min-height: 36px;
+    ion-label, div, span, ul, li {
+      color: #fff !important;
+    }
+    .titulo-campo {
+      color: #3a7bd5 !important;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+    strong {
+      color: #3a7bd5 !important;
+    }
+  }
+  p {
+    margin: 0.5em 0;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    ion-icon {
+      margin-right: 0.5em;
+      color: #3880ff;
+      font-size: 1.2em;
+    }
+    a {
+      color: #3880ff;
+      text-decoration: underline;
+      margin-left: 0.3em;
+    }
+  }
+}
+
+.texto-biografia {
+  white-space: pre-line;
+  margin-top: 0.3em;
+  color: #fff;
+}
+
+ion-list.info-extra ul {
+  margin: 0.3em 0 0 1.2em;
+  padding: 0;
+  list-style-type: disc;
+  color: #fff;
+}
+
+ion-list.info-extra li {
+  font-size: 0.98em;
+  margin-bottom: 0.2em;
+  color: #fff;
+}

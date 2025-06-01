@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Pais } from 'src/app/interfaces/pais.interface';
@@ -26,7 +26,8 @@ export class PaisesViewComponent implements OnChanges {
   constructor(
     private paisesService: PaisesService,
     private platosService: PlatosService,
-    private router: Router
+    private router: Router,
+    private modalCtrl: ModalController // <-- Agregado
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -47,25 +48,31 @@ export class PaisesViewComponent implements OnChanges {
     });
   }
 
- cargarPlatosTipicos() {
-  this.platosService.getPlatosPorPais(this.paisId).subscribe({
-    next: (data: any) => {
-      let platos: any[] = [];
-      if (Array.isArray(data)) {
-        platos = data;
-      } else if (Array.isArray(data.platos)) {
-        platos = data.platos;
+  cargarPlatosTipicos() {
+    this.platosService.getPlatosPorPais(this.paisId).subscribe({
+      next: (data: any) => {
+        let platos: any[] = [];
+        if (Array.isArray(data)) {
+          platos = data;
+        } else if (Array.isArray(data.platos)) {
+          platos = data.platos;
+        }
+        this.platosTipicos = platos.slice(0, 3); // Solo los 3 primeros
+      },
+      error: (err) => {
+        this.platosTipicos = [];
       }
-      this.platosTipicos = platos.slice(0, 3); // Solo los 3 primeros
-    },
-    error: (err) => {
-      this.platosTipicos = [];
-    }
-  });
-}
+    });
+  }
 
- verTodosPlatos() {
-    this.router.navigate(['/platos-list'], { queryParams: { pais: this.paisId } });
+  async verTodosPlatos() {
+    // Si este componente está en un modal, ciérralo antes de navegar
+    try {
+      await this.modalCtrl.dismiss();
+    } catch (e) {
+      // Si no está en un modal, no pasa nada
+    }
+    this.router.navigate(['/tabs/platos'], { queryParams: { pais: this.paisId } });
   }
 
   formatPoblacion(poblacion: number): string {

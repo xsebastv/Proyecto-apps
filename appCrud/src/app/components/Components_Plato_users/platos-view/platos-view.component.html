@@ -1,6 +1,6 @@
 <ion-card *ngIf="plato">
   <ion-card-content>
-    <div class="plato-thumb">
+    <div class="plato-thumb grande">
       <img *ngIf="plato.imagen" [src]="plato.imagen" alt="Imagen plato" />
       <div *ngIf="!plato.imagen" class="sin-imagen">
         <ion-icon name="image-outline" size="large"></ion-icon>
@@ -13,22 +13,24 @@
         {{ plato.nombre }}
       </h2>
       <h3>
-        <ion-icon name="pricetag-outline"></ion-icon>
-        {{ plato.precio | currency:'COP':'symbol':'1.0-0' }}
+        <ion-icon name="cash-outline"></ion-icon>
+        {{ plato.precio }}
       </h3>
     </div>
     <div class="info-extra">
-      <p>
+      <p class="descripcion-block">
         <ion-icon name="document-text-outline"></ion-icon>
-        <strong>Descripción:</strong> {{ plato.descripcion }}
+        <strong>Descripción:</strong>
+        <br>
+        <span>{{ plato.descripcion }}</span>
       </p>
-      <p *ngIf="plato.pais">
+      <p *ngIf="nombrePais">
         <ion-icon name="flag-outline"></ion-icon>
-        <strong>País:</strong> {{ getNombre(plato.pais) }}
+        <strong>País:</strong> {{ nombrePais }}
       </p>
-      <p *ngIf="plato.ciudad">
+      <p *ngIf="nombreCiudad">
         <ion-icon name="business-outline"></ion-icon>
-        <strong>Ciudad:</strong> {{ getNombre(plato.ciudad) }}
+        <strong>Ciudad:</strong> {{ nombreCiudad }}
       </p>
       <p>
         <ion-icon [name]="plato.disponible ? 'checkmark-circle-outline' : 'close-circle-outline'"></ion-icon>

@@ -1,74 +1,89 @@
-<ion-card *ngIf="pais">
+<ion-card *ngIf="pais" class="pais-card">
   <ion-card-content>
-    <div class="pais-thumb">
+    <div class="pais-thumb grande">
       <img *ngIf="pais.imagen" [src]="pais.imagen" alt="Imagen país" />
       <div *ngIf="!pais.imagen" class="sin-imagen">
         <ion-icon name="image-outline" size="large"></ion-icon>
-        Sin imagen
+        <span>Sin imagen</span>
       </div>
     </div>
     <div class="pais-titulos">
       <h2>
-        <ion-icon name="flag-outline"></ion-icon>
+        <ion-icon name="flag-outline" color="primary"></ion-icon>
         {{ pais.nombre }}
       </h2>
       <h3 *ngIf="pais.codigo">
-        <ion-icon name="pricetag-outline"></ion-icon>
-        Código: {{ pais.codigo }}
+        <ion-icon name="pricetag-outline" color="medium"></ion-icon>
+        <span class="label">Código:</span>
+        <span class="valor">{{ pais.codigo }}</span>
       </h3>
       <h3 *ngIf="pais.continente">
-        <ion-icon name="earth-outline"></ion-icon>
-        Continente: {{ pais.continente }}
+        <ion-icon name="earth-outline" color="success"></ion-icon>
+        <span class="label">Continente:</span>
+        <span class="valor">{{ pais.continente }}</span>
       </h3>
     </div>
-    <div class="info-extra">
-      <p>
-        <ion-icon name="people-outline"></ion-icon>
-        <strong>Población:</strong>
-        {{ pais.poblacion ? formatPoblacion(pais.poblacion) : 'No disponible' }}
-      </p>
-      <p>
-        <ion-icon name="pricetag-outline"></ion-icon>
-        <strong>ID:</strong> {{ pais._id }}
-      </p>
+
+    <div class="pais-info-extra">
+      <div class="info-row">
+        <ion-icon name="people-outline" color="tertiary"></ion-icon>
+        <span class="label">Población:</span>
+        <span class="valor">{{ pais.poblacion ? formatPoblacion(pais.poblacion) : 'No disponible' }}</span>
+      </div>
+      <div class="info-row">
+        <ion-icon name="id-card-outline" color="warning"></ion-icon>
+        <span class="label">ID:</span>
+        <span class="valor">{{ pais._id }}</span>
+      </div>
     </div>
 
-    <!-- Platos típicos desplegable -->
     <ion-accordion-group>
       <ion-accordion value="platos-tipicos">
         <ion-item slot="header" color="light">
           <ion-label>
-            <ion-icon name="restaurant-outline"></ion-icon>
-            Platos típicos
+            <ion-icon name="restaurant-outline" color="danger"></ion-icon>
+            <span class="platos-titulo">Platos típicos</span>
           </ion-label>
         </ion-item>
-        <div class="ion-padding" slot="content">
+        <div class="ion-padding platos-tipicos" slot="content">
           <ng-container *ngIf="platosTipicos.length > 0; else sinPlatos">
             <ion-list>
               <ion-item *ngFor="let plato of platosTipicos">
                 <ion-avatar slot="start">
                   <img *ngIf="plato.imagen" [src]="plato.imagen" alt="Imagen plato" />
-                  <ion-icon *ngIf="!plato.imagen" name="restaurant-outline"></ion-icon>
+                  <ion-icon *ngIf="!plato.imagen" name="restaurant-outline" color="medium"></ion-icon>
                 </ion-avatar>
                 <ion-label>
                   <strong>{{ plato.nombre }}</strong>
-                  <p>{{ plato.descripcion }}</p>
+                  <p>
+                    <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+                    {{ plato.descripcion }}
+                  </p>
+                  <p *ngIf="plato.origen">
+                    <ion-icon name="location-outline" color="success"></ion-icon>
+                    Origen: {{ plato.origen }}
+                  </p>
+                  <p *ngIf="plato.categoria">
+                    <ion-icon name="pricetag-outline" color="warning"></ion-icon>
+                    Categoría: {{ plato.categoria }}
+                  </p>
                 </ion-label>
               </ion-item>
             </ion-list>
-            <ion-button expand="block" fill="outline" (click)="verTodosPlatos()">
+            <ion-button expand="block" fill="outline" color="primary" (click)="verTodosPlatos()">
+              <ion-icon name="list-outline" slot="start"></ion-icon>
               Ver todos los platos típicos
             </ion-button>
           </ng-container>
           <ng-template #sinPlatos>
             <ion-text color="medium">
+              <ion-icon name="close-circle-outline"></ion-icon>
               No hay platos típicos registrados.
             </ion-text>
           </ng-template>
         </div>
       </ion-accordion>
     </ion-accordion-group>
-    <!-- Fin desplegable -->
   </ion-card-content>
 </ion-card>
 <ion-card *ngIf="!pais">

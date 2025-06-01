@@ -23,16 +23,16 @@
           </h2>
           <div class="plato-detalles">
             <span>
-              <ion-icon name="pricetag-outline"></ion-icon>
-              {{ plato.precio | currency:'COP':'symbol':'1.0-0' }}
+              <ion-icon name="cash-outline"></ion-icon>
+              {{ plato.precio }}
             </span>
-            <span *ngIf="plato.pais">
+            <span>
               <ion-icon name="flag-outline"></ion-icon>
-              {{ getNombre(plato.pais) }}
+              {{ getNombrePais(plato) }}
             </span>
-            <span *ngIf="plato.ciudad">
+            <span>
               <ion-icon name="business-outline"></ion-icon>
-              {{ getNombre(plato.ciudad) }}
+              {{ getNombreCiudad(plato) }}
             </span>
             <span>
               <ion-icon [name]="plato.disponible ? 'checkmark-circle-outline' : 'close-circle-outline'"></ion-icon>

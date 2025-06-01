@@ -17,8 +17,34 @@ export const routes: Routes = [
           import('../pages/Users/paises/paises.page').then((m) => m.PaisesPage),
       },
       {
+        path: 'platos',
+        loadComponent: () =>
+          import('../pages/Users/platos/platos.pages').then((m) => m.PlatosComponent),
+      },
+      {
         path: 'ciudades',
-        loadComponent: () => import('../pages/Users/ciudades/ciudades.page').then(m => m.CiudadesPage)
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../pages/Users/ciudades/ciudades.page').then(m => m.CiudadesPage)
+          },
+          {
+            path: ':ciudadId',
+            loadComponent: () =>
+              import('../components/Components_Ciudad_users/ciudades-view/ciudades-view.component').then(m => m.CiudadesViewComponent)
+          },
+          {
+            path: ':ciudadId/plato/:id',
+            loadComponent: () =>
+              import('../components/Components_Plato_users/platos-view-page/platos-view-page.component').then(m => m.PlatosViewPageComponent)
+          },
+          {
+            path: ':ciudadId/famoso/:id',
+            loadComponent: () =>
+              import('../components/Components_Famoso_users/famosos-view/famosos-view.component').then(m => m.FamososViewComponent)
+          }
+        ]
       },
       {
         path: 'sitios',
@@ -45,7 +71,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../pages/Admins/admin/admin.page').then((m) => m.AdminPage),
       },
-
       {
         path: '',
         redirectTo: 'inicio',
