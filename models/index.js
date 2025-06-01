@@ -5,12 +5,11 @@ const Pais = require('./paises.model');
 const Personaje = require('./personajes.model');
 const Plato = require('./platos.model');
 const Sitio = require('./sitios.model');
-const Tag = require('./tags.model');
-const Usuario = require('./usuarios.model');
+const FamosoTag = require('./famosoTag.model');
+const Usuario = require('./mongoUsuario.model');
 const Visita = require('./visita.model');
 
 module.exports = {
-    Server,
     Usuario,
     Ciudad,
     Famoso,
@@ -19,6 +18,6 @@ module.exports = {
     Personaje,
     Plato,
     Sitio,
-    Tag,
+    FamosoTag,
     Visita
 };

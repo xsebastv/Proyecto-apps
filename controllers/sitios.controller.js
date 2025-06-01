@@ -1,5 +1,7 @@
 const Sitio = require('../models/sitios.model');
 const Ciudad = require('../models/ciudades.model');
+const Visita = require('../models/visita.model');
+const mongoose = require('mongoose');
 
 // Crear un sitio
 const crearSitio = async (req, res) => {
@@ -109,6 +111,45 @@ const eliminarSitio = async (req, res) => {
     }
 };
 
+// Consulta especial: Top 10 sitios más visitados por país
+const obtenerTopSitiosPorPais = async (req, res) => {
+    try {
+        const { idPais } = req.params;
+        // Buscar todas las ciudades del país
+        const ciudades = await Ciudad.find({ pais: idPais }).select('_id');
+        const ciudadesIds = ciudades.map(c => c._id);
+
+        // Buscar todos los sitios de esas ciudades
+        const sitios = await Sitio.find({ ciudad: { $in: ciudadesIds } }).select('_id nombre tipo ciudad');
+        const sitioIds = sitios.map(s => s._id);
+
+        // Agrupar visitas por sitio y contar
+        const topSitios = await Visita.aggregate([
+            { $match: { sitio: { $in: sitioIds } } },
+            { $group: { _id: '$sitio', visitas: { $sum: 1 } } },
+            { $sort: { visitas: -1 } },
+            { $limit: 10 }
+        ]);
+
+        // Obtener información de los sitios
+        const sitiosInfo = await Sitio.find({ _id: { $in: topSitios.map(s => s._id) } })
+            .populate('ciudad');
+
+        // Unir visitas con info de sitio
+        const resultado = topSitios.map(ts => {
+            const sitio = sitiosInfo.find(s => s._id.equals(ts._id));
+            return {
+                sitio,
+                visitas: ts.visitas
+            };
+        });
+
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     crearSitio,
     obtenerSitios,
@@ -116,5 +157,6 @@ module.exports = {
     actualizarSitio,
     eliminarSitio,
     obtenerSitiosPorCiudad,
-    obtenerSitiosPorPais
+    obtenerSitiosPorPais,
+    obtenerTopSitiosPorPais
 };

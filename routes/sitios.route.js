@@ -1,26 +1,29 @@
 const { Router } = require('express');
-const { 
-    crearSitio, 
-    obtenerSitios, 
-    obtenerSitio, 
-    actualizarSitio, 
+const {
+    crearSitio,
+    obtenerSitios,
+    obtenerSitio,
+    actualizarSitio,
     eliminarSitio,
     obtenerSitiosPorCiudad,
-    obtenerSitiosPorPais
+    obtenerSitiosPorPais,
+    obtenerTopSitiosPorPais
 } = require('../controllers/sitios.controller');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { esAdminRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 
-router.post('/', [validarJWT, esAdminRole], crearSitio);
-router.get('/', validarJWT, obtenerSitios);
-// Nuevas rutas:
-router.get('/ciudad/:idCiudad', validarJWT, obtenerSitiosPorCiudad);
-router.get('/pais/:idPais', validarJWT, obtenerSitiosPorPais);
+// Solo admin puede crear, actualizar o eliminar sitios
+router.post('/', validarJWT, esAdminRole, crearSitio);
+router.put('/:id', validarJWT, esAdminRole, actualizarSitio);
+router.delete('/:id', validarJWT, esAdminRole, eliminarSitio);
 
-router.get('/:id', validarJWT, obtenerSitio);
-router.put('/:id', validarJWT, actualizarSitio);
-router.delete('/:id', validarJWT, eliminarSitio);
+// Consultas públicas
+router.get('/', obtenerSitios);
+router.get('/:id', obtenerSitio);
+router.get('/ciudad/:idCiudad', obtenerSitiosPorCiudad);
+router.get('/pais/:idPais', obtenerSitiosPorPais);
+router.get('/top/pais/:idPais', obtenerTopSitiosPorPais);
 
 module.exports = router;

@@ -88,6 +88,22 @@ const obtenerFamososPorPais = async (req, res) => {
     }
 };
 
+// Consulta especial: famosos por categoría y procedencia
+const obtenerFamososPorCategoria = async (req, res) => {
+    try {
+        const { categoria } = req.query; // opcional: filtrar por categoría
+        const filtro = categoria ? { categoria } : {};
+        const famosos = await Famoso.find(filtro)
+            .populate({
+                path: 'ciudad',
+                populate: { path: 'pais', select: 'nombre codigo continente' }
+            });
+        res.json(famosos);
+    } catch (error) {
+        res.status(500).json({ msg: 'Error al obtener famosos por categoría', error: error.message });
+    }
+};
+
 // Actualizar un famoso
 const actualizarFamoso = async (req, res) => {
     try {
@@ -135,5 +151,6 @@ module.exports = {
     actualizarFamoso,
     eliminarFamoso,
     obtenerFamososPorCiudad,
-    obtenerFamososPorPais
+    obtenerFamososPorPais,
+    obtenerFamososPorCategoria
 };

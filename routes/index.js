@@ -10,7 +10,9 @@ router.use('/paises', require('./paises.route'));
 router.use('/personajes', require('./personajes.route'));
 router.use('/platos', require('./platos.route'));
 router.use('/sitios', require('./sitios.route'));
-router.use('/tags', require('./tags.route'));
+router.use('/famoso_tag', require('./famosoTag.route'));
 router.use('/visita', require('./visita.route'));
+router.use('/favoritos', require('./favoritos.route'));
+app.use('/api/estadisticas', require('./routes/estadisticas.route'));
 
 module.exports = router;
