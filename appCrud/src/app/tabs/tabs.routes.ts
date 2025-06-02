@@ -40,27 +40,23 @@ export const routes: Routes = [
               import('../components/Components_Plato_users/platos-view-page/platos-view-page.component').then(m => m.PlatosViewPageComponent)
           },
           {
-            path: ':ciudadId/famoso/:id',
+            path: ':ciudadId/sitio/:id',
             loadComponent: () =>
-              import('../components/Components_Famoso_users/famosos-view/famosos-view.component').then(m => m.FamososViewComponent)
+              import('../components/Components_Sitio_users/sitios-view/sitios-view.component').then(m => m.SitiosViewComponent)
           }
         ]
       },
-      {
-        path: 'sitios',
-        loadComponent: () =>
-          import('../pages/Users/sitios/sitios.page').then((m) => m.SitiosPage),
-      },
+      
       {
         path: 'famosos',
         loadComponent: () =>
           import('../pages/Users/famosos/famosos.page').then((m) => m.FamososPage),
       },
+      // Ejemplo de ruta en tabs.routes.ts
       {
         path: 'favoritos',
-        loadComponent: () =>
-          import('../pages/Users/favoritos/favoritos.page').then((m) => m.FavoritosPage),
-      },
+        loadComponent: () => import('src/app/pages/Users/favoritos/favoritos.page').then(m => m.FavoritosPage)
+      },  
       {
         path: 'mis-visitas',
         loadComponent: () =>

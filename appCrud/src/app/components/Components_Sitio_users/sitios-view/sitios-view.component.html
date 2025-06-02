@@ -1,3 +1,112 @@
-<p>
-  sitios-view works!
-</p>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volverACiudad()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Detalles del Sitio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="sitio">
+    <ion-card-content>
+      <div class="sitio-thumb grande">
+        <img *ngIf="sitio.imagen" [src]="sitio.imagen" alt="Imagen sitio" />
+        <div *ngIf="!sitio.imagen" class="sin-imagen">
+          <ion-icon name="image-outline" size="large"></ion-icon>
+          Sin imagen
+        </div>
+      </div>
+      <div class="sitio-titulos">
+        <h2>
+          <ion-icon name="business-outline"></ion-icon>
+          {{ sitio.nombre }}
+        </h2>
+        <h3 *ngIf="sitio.tipo">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          {{ sitio.tipo }}
+        </h3>
+      </div>
+      <div class="info-extra">
+        <p *ngIf="sitio.descripcion">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <strong>Descripción:</strong>
+          <span>{{ sitio.descripcion }}</span>
+        </p>
+        <p *ngIf="nombrePais">
+          <ion-icon name="flag-outline"></ion-icon>
+          <strong>País:</strong>
+          <span>{{ nombrePais }}</span>
+        </p>
+        <p *ngIf="nombreCiudad">
+          <ion-icon name="business-outline"></ion-icon>
+          <strong>Ciudad:</strong>
+          <span>{{ nombreCiudad }}</span>
+        </p>
+        <p *ngIf="sitio.direccion">
+          <ion-icon name="location-outline"></ion-icon>
+          <strong>Dirección:</strong>
+          <span>{{ sitio.direccion }}</span>
+        </p>
+        <p *ngIf="sitio.telefono">
+          <ion-icon name="call-outline"></ion-icon>
+          <strong>Teléfono:</strong>
+          <span>{{ sitio.telefono }}</span>
+        </p>
+        <p>
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <strong>ID:</strong>
+          <span>{{ sitio._id }}</span>
+        </p>
+      </div>
+      <ion-button fill="clear" (click)="toggleFavorito(sitio)">
+        <ion-icon
+          [name]="esFavorito(sitio._id) ? 'heart' : 'heart-outline'"
+          [color]="esFavorito(sitio._id) ? 'danger' : 'medium'">
+        </ion-icon>
+        {{ esFavorito(sitio._id) ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+      </ion-button>
+      <ion-button
+        expand="block"
+        color="success"
+        (click)="registrarVisita()"
+        [disabled]="yaVisitado"
+        *ngIf="!yaVisitado"
+      >
+        <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+        Registrar visita
+      </ion-button>
+      <ion-button
+        expand="block"
+        color="medium"
+        disabled
+        *ngIf="yaVisitado"
+      >
+        <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+        Sitio visitado
+      </ion-button>
+      <ion-button
+        expand="block"
+        color="danger"
+        (click)="quitarVisita()"
+        *ngIf="yaVisitado"
+      >
+        <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+        Quitar visita
+      </ion-button>
+      <ion-button expand="block" color="primary" (click)="volverACiudad()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Volver a la ciudad
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="!sitio">
+    <ion-card-content>
+      <ion-spinner></ion-spinner> Cargando información del sitio...
+    </ion-card-content>
+  </ion-card>
+</ion-content>

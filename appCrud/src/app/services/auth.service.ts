@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_API } from '../config/url.servicios';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,7 @@ export class AuthService {
   private static readonly USER_NAME_KEY = 'userName';
   private static readonly USER_IMG_KEY = 'userImg';
   private static readonly USER_ROLE_KEY = 'userRole';
+  private static readonly USER_ID_KEY = 'userId';
 
   private logoutTimeout: any = null;
 
@@ -39,11 +40,40 @@ export class AuthService {
   // Método para iniciar sesión
   login(correo: string, password: string): Observable<any> {
     return this.http.post(`${URL_API}/auth/login`, { correo, password }).pipe(
+      tap((resp: any) => {
+        this.setToken(resp.token);
+        // Asegúrate que el backend retorna resp.usuario._id correctamente
+        if (resp.usuario && resp.usuario._id) {
+          this.setUserId(resp.usuario._id);
+          this.setUserName(resp.usuario.nombre);
+          this.setUserImg(resp.usuario.img || '');
+          this.setUserRole(resp.usuario.rol || '');
+        } else {
+          // Si no viene el usuario, intenta decodificar el token (si contiene el id)
+          const userId = this.decodeUserIdFromToken(resp.token);
+          if (userId) {
+            this.setUserId(userId);
+          }
+        }
+      }),
       catchError((error) => {
         console.error('Error en el login:', error);
         return throwError(() => new Error('Error al iniciar sesión'));
       })
     );
+  }
+
+  // Intenta decodificar el userId del token si el backend no lo retorna explícitamente
+  private decodeUserIdFromToken(token: string): string | null {
+    if (!token) return null;
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) return null;
+      const decoded = JSON.parse(atob(payload));
+      return decoded.uid || decoded._id || null;
+    } catch {
+      return null;
+    }
   }
 
   // Guarda el token en localStorage y actualiza el estado de sesión
@@ -135,12 +165,25 @@ export class AuthService {
     return localStorage.getItem(AuthService.USER_ROLE_KEY);
   }
 
+  // Guarda el ID del usuario en localStorage
+  setUserId(userId: string): void {
+    if (userId) {
+      localStorage.setItem(AuthService.USER_ID_KEY, userId);
+    }
+  }
+
+  // Obtiene el ID del usuario desde localStorage
+  getUserId(): string | null {
+    return localStorage.getItem(AuthService.USER_ID_KEY);
+  }
+
   // Elimina el token y los datos del usuario de localStorage y actualiza el estado de sesión
   logout(): void {
     localStorage.removeItem(AuthService.TOKEN_KEY);
     localStorage.removeItem(AuthService.USER_NAME_KEY);
     localStorage.removeItem(AuthService.USER_IMG_KEY);
     localStorage.removeItem(AuthService.USER_ROLE_KEY);
+    localStorage.removeItem(AuthService.USER_ID_KEY);
     this.loggedIn$.next(false);
     if (this.logoutTimeout) {
       clearTimeout(this.logoutTimeout);

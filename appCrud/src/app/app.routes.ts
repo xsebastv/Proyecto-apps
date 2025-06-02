@@ -18,10 +18,6 @@ export const routes: Routes = [
   },
   // RUTAS GENERALES (NO detalles, solo páginas principales)
   {
-    path: 'sitios',
-    loadComponent: () => import('./pages/Users/sitios/sitios.page').then(m => m.SitiosPage)
-  },
-  {
     path: 'platos',
     loadComponent: () => import('./pages/Users/platos/platos.pages').then(m => m.PlatosComponent)
   },
@@ -32,10 +28,6 @@ export const routes: Routes = [
   {
     path: 'favoritos',
     loadComponent: () => import('./pages/Users/favoritos/favoritos.page').then(m => m.FavoritosPage)
-  },
-  {
-    path: 'visitas',
-    loadComponent: () => import('./pages/Users/visitas/visitas.page').then(m => m.VisitasPage)
   },
   {
     path: 'gestion-sitios',

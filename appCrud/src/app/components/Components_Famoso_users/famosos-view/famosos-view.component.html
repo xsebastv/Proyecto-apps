@@ -97,7 +97,9 @@
       <ion-list *ngIf="tags.length; else sinTags">
         <ion-item *ngFor="let tag of tags">
           <ion-label>
-            <strong>{{ tag.usuario?.nombre || 'Usuario' }}</strong>:
+            <strong>
+              {{ getNombreUsuario(tag.usuario) }}
+            </strong>:
             {{ tag.comentario }}
             <br>
             <small>{{ tag.fecha | date:'short' }}</small>

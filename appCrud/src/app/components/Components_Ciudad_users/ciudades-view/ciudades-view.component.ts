@@ -1,6 +1,6 @@
 import { Component, Input, AfterViewInit, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular'; // <-- MODAL
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Ciudad } from 'src/app/interfaces/ciudad.interface';
 import mapboxgl from 'mapbox-gl';
@@ -8,9 +8,11 @@ import { CiudadesBDService } from 'src/app/services/ciudades-bd.service';
 import { PlatosService } from 'src/app/services/platos.service';
 import { FamososService } from 'src/app/services/famosos.service';
 import { SitiosService } from 'src/app/services/sitios.service';
+import { FavoritosService } from 'src/app/services/favoritos.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PlatosViewPageComponent } from 'src/app/components/Components_Plato_users/platos-view-page/platos-view-page.component'; // <-- MODAL
-import { FamososViewComponent } from 'src/app/components/Components_Famoso_users/famosos-view/famosos-view.component'; // importa el componente
+import { PlatosViewPageComponent } from 'src/app/components/Components_Plato_users/platos-view-page/platos-view-page.component';
+import { FamososViewComponent } from 'src/app/components/Components_Famoso_users/famosos-view/famosos-view.component';
+import { SitiosViewComponent } from 'src/app/components/Components_Sitio_users/sitios-view/sitios-view.component';
 
 @Component({
   selector: 'app-ciudades-view',
@@ -30,17 +32,21 @@ export class CiudadesViewComponent implements AfterViewInit, OnChanges {
   famosos: any[] = [];
   sitios: any[] = [];
 
+  favoritos: string[] = [];
+
   constructor(
     private ciudadesService: CiudadesBDService,
     private platosService: PlatosService,
     private famososService: FamososService,
     private sitiosService: SitiosService,
+    private favoritosService: FavoritosService,
     private router: Router,
     private route: ActivatedRoute,
-    private modalCtrl: ModalController // <-- MODAL
+    private modalCtrl: ModalController
   ) {}
 
   ngAfterViewInit() {
+    this.cargarFavoritos();
     if (this.ciudadId) {
       this.cargarCiudad();
     }
@@ -93,9 +99,47 @@ export class CiudadesViewComponent implements AfterViewInit, OnChanges {
     });
   }
 
+  // --- FAVORITOS DESDE API ---
+  cargarFavoritos() {
+    this.favoritosService.getFavoritos().subscribe({
+      next: (resp: any) => {
+        // Ajusta aquí según la respuesta real de tu API
+        if (Array.isArray(resp.favoritos)) {
+          this.favoritos = resp.favoritos.map((f: any) => typeof f === 'string' ? f : f._id);
+        } else if (Array.isArray(resp)) {
+          this.favoritos = resp.map((f: any) => typeof f === 'string' ? f : f._id);
+        } else {
+          this.favoritos = [];
+        }
+      },
+      error: err => {
+        console.error('Error al cargar favoritos', err);
+        this.favoritos = [];
+      }
+    });
+  }
+
+  esFavorito(id: string): boolean {
+    return this.favoritos.includes(id);
+  }
+
+  toggleFavorito(sitio: any, event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.esFavorito(sitio._id)) {
+      this.favoritosService.quitarFavorito(sitio._id).subscribe({
+        next: () => this.cargarFavoritos(),
+        error: err => console.error('Error al quitar favorito', err)
+      });
+    } else {
+      this.favoritosService.agregarFavorito(sitio._id).subscribe({
+        next: () => this.cargarFavoritos(),
+        error: err => console.error('Error al agregar favorito', err)
+      });
+    }
+  }
+
   // FUNCIONES DE NAVEGACIÓN A DETALLE
   async verPlato(plato: any) {
-    // Abre el detalle del plato como modal
     const modal = await this.modalCtrl.create({
       component: PlatosViewPageComponent,
       componentProps: { platoId: plato._id }
@@ -104,15 +148,21 @@ export class CiudadesViewComponent implements AfterViewInit, OnChanges {
   }
 
   async verFamoso(famoso: any) {
-  const modal = await this.modalCtrl.create({
-    component: FamososViewComponent,
-    componentProps: { famosoId: famoso._id }
-  });
-  await modal.present();
-}
+    const modal = await this.modalCtrl.create({
+      component: FamososViewComponent,
+      componentProps: { famosoId: famoso._id }
+    });
+    await modal.present();
+  }
 
-  verSitio(sitio: any) {
-    this.router.navigate(['/tabs/sitio', sitio._id]);
+  async verSitio(sitio: any) {
+    const modal = await this.modalCtrl.create({
+      component: SitiosViewComponent,
+      componentProps: { sitioId: sitio._id }
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    this.cargarFavoritos(); // <-- Recarga favoritos al cerrar el modal
   }
 
   toggleMapa() {
@@ -132,7 +182,6 @@ export class CiudadesViewComponent implements AfterViewInit, OnChanges {
   initMap() {
     if (!this.ciudad?.latitud || !this.ciudad?.longitud || !this.mapContainer) return;
 
-    // Elimina el mapa anterior si existe
     if (this.map) {
       this.map.remove();
     }

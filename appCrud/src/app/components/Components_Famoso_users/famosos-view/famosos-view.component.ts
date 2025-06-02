@@ -38,7 +38,11 @@ export class FamososViewComponent implements OnInit {
 
   cargarTags() {
     this.famososService.getTagsDeFamoso(this.famosoId).subscribe((tags: FamosoTag[]) => {
-      this.tags = tags;
+      // Normaliza para que usuario siempre sea un objeto con nombre
+      this.tags = tags.map(tag => ({
+        ...tag,
+        usuario: typeof tag.usuario === 'string' ? { nombre: tag.usuario } : tag.usuario
+      }));
     });
   }
 
@@ -49,7 +53,11 @@ export class FamososViewComponent implements OnInit {
       this.cargarTags();
     });
   }
-
+  getNombreUsuario(usuario: string | { nombre: string }): string {
+    if (!usuario) return 'Usuario';
+    if (typeof usuario === 'string') return usuario;
+    return usuario.nombre || 'Usuario';
+  }
   cerrarModal() {
     this.modalCtrl.dismiss();
   }

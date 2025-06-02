@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { PaisesService } from 'src/app/services/paises.service';
 import { CiudadesBDService } from 'src/app/services/ciudades-bd.service';
 import { CiudadesListComponent } from 'src/app/components/Components_Ciudad_users/ciudades-list/ciudades-list.component';
@@ -12,7 +11,7 @@ import { CiudadesListComponent } from 'src/app/components/Components_Ciudad_user
   templateUrl: './ciudades.page.html',
   styleUrls: ['./ciudades.page.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, CommonModule, RouterOutlet, CiudadesListComponent]
+  imports: [IonicModule, FormsModule, CommonModule, CiudadesListComponent]
 })
 export class CiudadesPage implements OnInit {
   paises: any[] = [];

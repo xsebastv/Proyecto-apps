@@ -132,6 +132,12 @@
                     {{ sitio.descripcion }}
                   </p>
                 </ion-label>
+                <ion-icon
+                  slot="end"
+                  [name]="esFavorito(sitio._id) ? 'heart' : 'heart-outline'"
+                  [color]="esFavorito(sitio._id) ? 'danger' : 'medium'"
+                  (click)="toggleFavorito(sitio, $event)">
+                </ion-icon>
               </ion-item>
             </ion-list>
           </ng-container>
