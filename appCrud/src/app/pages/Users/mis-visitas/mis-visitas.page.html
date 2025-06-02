@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>mis-visitas</ion-title>
+    <ion-title>Mis visitas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">mis-visitas</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <app-mis-visitas-list
+    [visitas]="visitas"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo"
+  ></app-mis-visitas-list>
 </ion-content>

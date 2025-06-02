@@ -1,0 +1,46 @@
+<ion-list class="ion-padding-top">
+  <ion-list-header>
+    <ion-label>
+      <strong>{{ titulo }} - {{ subtitulo }}</strong>
+    </ion-label>
+  </ion-list-header>
+
+  <ion-card *ngFor="let visita of visitas">
+    <ion-item lines="none" class="favorito-item" (click)="verSitio(visita.sitio?._id)">
+      <div class="favorito-thumb">
+        <img *ngIf="visita.sitio?.imagen; else sinImagen" [src]="visita.sitio?.imagen" alt="Imagen sitio" />
+        <ng-template #sinImagen>
+          <div class="sin-imagen">
+            <ion-icon name="location-outline" size="large"></ion-icon>
+          </div>
+        </ng-template>
+      </div>
+      <ion-label>
+        <div class="favorito-info">
+          <h2>
+            <ion-icon name="location-outline"></ion-icon>
+            {{ visita.sitio?.nombre || 'Sin nombre' }}
+          </h2>
+          <div class="favorito-detalles">
+            <span *ngIf="visita.sitio?.tipo">
+              <ion-icon name="pricetag-outline"></ion-icon>
+              {{ visita.sitio?.tipo }}
+            </span>
+            <span *ngIf="visita.sitio?.direccion">
+              <ion-icon name="location-outline"></ion-icon>
+              {{ visita.sitio?.direccion }}
+            </span>
+            <span *ngIf="visita.fecha_visita">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ visita.fecha_visita | date:'mediumDate' }}
+            </span>
+          </div>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+</ion-list>
+
+<ng-container *ngIf="!visitas || visitas.length === 0">
+  <ion-text color="medium">No tienes visitas registradas.</ion-text>
+</ng-container>
