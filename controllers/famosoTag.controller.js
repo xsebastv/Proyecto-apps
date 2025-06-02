@@ -15,10 +15,11 @@ const crearFamosoTag = async (req, res) => {
 const obtenerTagsPorFamoso = async (req, res) => {
     try {
         const { idFamoso } = req.params;
-        const tags = await FamosoTag.find({ famoso: idFamoso }).populate('usuario', 'nombre');
-        res.json(tags);
+        const tags = await FamosoTag.find({ famoso: idFamoso })
+            .populate('usuario', 'nombre'); // <-- Esto es clave
+        res.json({ tags });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ msg: 'Error al obtener tags', error });
     }
 };
 
