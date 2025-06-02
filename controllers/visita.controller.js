@@ -2,15 +2,16 @@ const Visita = require('../models/visita.model');
 const Ciudad = require('../models/ciudades.model');
 const Sitio = require('../models/sitios.model');
 
-// Crear una visita
+// Crear una visita (usuario autenticado)
 const crearVisita = async (req, res) => {
     try {
-        const { usuario, sitio, fecha_visita } = req.body;
+        const usuario = req.usuario.id; // Tomar del JWT
+        const { sitio, fecha_visita, comentario } = req.body;
         const existe = await Visita.findOne({ usuario, sitio, fecha_visita });
         if (existe) {
             return res.status(400).json({ message: 'Ya existe una visita registrada para ese usuario, sitio y fecha' });
         }
-        const visita = new Visita(req.body);
+        const visita = new Visita({ usuario, sitio, fecha_visita, comentario });
         await visita.save();
         res.status(201).json(visita);
     } catch (error) {
@@ -18,20 +19,22 @@ const crearVisita = async (req, res) => {
     }
 };
 
-// Obtener todas las visitas
+// Obtener todas las visitas del usuario autenticado
 const obtenerVisitas = async (req, res) => {
     try {
-        const visitas = await Visita.find().populate('usuario sitio');
+        const usuario = req.usuario.id;
+        const visitas = await Visita.find({ usuario }).populate('usuario sitio');
         res.status(200).json(visitas);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Obtener una visita por ID
+// Obtener una visita por ID (solo si pertenece al usuario)
 const obtenerVisita = async (req, res) => {
     try {
-        const visita = await Visita.findById(req.params.id).populate('usuario sitio');
+        const usuario = req.usuario.id;
+        const visita = await Visita.findOne({ _id: req.params.id, usuario }).populate('usuario sitio');
         if (!visita) {
             return res.status(404).json({ message: 'Visita no encontrada' });
         }
@@ -41,45 +44,43 @@ const obtenerVisita = async (req, res) => {
     }
 };
 
-// Obtener visitas por ciudad
+// Obtener visitas por ciudad (solo del usuario autenticado)
 const obtenerVisitasPorCiudad = async (req, res) => {
     try {
+        const usuario = req.usuario.id;
         const { idCiudad } = req.params;
-        // Busca sitios en la ciudad
         const sitios = await Sitio.find({ ciudad: idCiudad }).select('_id');
         const sitioIds = sitios.map(s => s._id);
-        // Busca visitas a esos sitios
-        const visitas = await Visita.find({ sitio: { $in: sitioIds } }).populate('usuario sitio');
+        const visitas = await Visita.find({ usuario, sitio: { $in: sitioIds } }).populate('usuario sitio');
         res.status(200).json(visitas);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Obtener visitas por país
+// Obtener visitas por país (solo del usuario autenticado)
 const obtenerVisitasPorPais = async (req, res) => {
     try {
+        const usuario = req.usuario.id;
         const { idPais } = req.params;
-        // Busca ciudades del país
         const ciudades = await Ciudad.find({ pais: idPais }).select('_id');
         const ciudadIds = ciudades.map(c => c._id);
-        // Busca sitios en esas ciudades
         const sitios = await Sitio.find({ ciudad: { $in: ciudadIds } }).select('_id');
         const sitioIds = sitios.map(s => s._id);
-        // Busca visitas a esos sitios
-        const visitas = await Visita.find({ sitio: { $in: sitioIds } }).populate('usuario sitio');
+        const visitas = await Visita.find({ usuario, sitio: { $in: sitioIds } }).populate('usuario sitio');
         res.status(200).json(visitas);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Actualizar una visita por ID
+// Actualizar una visita por ID (solo si pertenece al usuario)
 const actualizarVisita = async (req, res) => {
     try {
-        const { usuario, sitio, fecha_visita } = req.body;
+        const usuario = req.usuario.id;
+        const { sitio, fecha_visita, comentario } = req.body;
         const { id } = req.params;
-        if (usuario && sitio && fecha_visita) {
+        if (sitio && fecha_visita) {
             const existe = await Visita.findOne({
                 _id: { $ne: id },
                 usuario,
@@ -90,7 +91,11 @@ const actualizarVisita = async (req, res) => {
                 return res.status(400).json({ message: 'Ya existe una visita registrada para ese usuario, sitio y fecha' });
             }
         }
-        const visita = await Visita.findByIdAndUpdate(id, req.body, { new: true });
+        const visita = await Visita.findOneAndUpdate(
+            { _id: id, usuario },
+            { sitio, fecha_visita, comentario },
+            { new: true }
+        );
         if (!visita) {
             return res.status(404).json({ message: 'Visita no encontrada' });
         }
@@ -100,10 +105,11 @@ const actualizarVisita = async (req, res) => {
     }
 };
 
-// Eliminar una visita por ID
+// Eliminar una visita por ID (solo si pertenece al usuario)
 const eliminarVisita = async (req, res) => {
     try {
-        const visita = await Visita.findByIdAndDelete(req.params.id);
+        const usuario = req.usuario.id;
+        const visita = await Visita.findOneAndDelete({ _id: req.params.id, usuario });
         if (!visita) {
             return res.status(404).json({ message: 'Visita no encontrada' });
         }
