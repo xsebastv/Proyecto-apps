@@ -1,20 +1,24 @@
 const Usuario = require('../models/mongoUsuario.model');
 
 const agregarFavorito = async (req, res) => {
-    try {
-        const { sitioId } = req.body;
-        if (!sitioId) return res.status(400).json({ error: 'Falta el sitioId' });
+  try {
+    console.log('Usuario:', req.usuario._id);
+    console.log('SitioId:', req.body.sitioId);
 
-        const usuario = await Usuario.findByIdAndUpdate(
-            req.usuario._id,
-            { $addToSet: { favoritos: sitioId } },
-            { new: true }
-        ).populate('favoritos');
+    const { sitioId } = req.body;
+    if (!sitioId) return res.status(400).json({ error: 'Falta el sitioId' });
 
-        res.json({ favoritos: usuario.favoritos });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    const usuario = await Usuario.findByIdAndUpdate(
+      req.usuario._id,
+      { $addToSet: { favoritos: sitioId } },
+      { new: true }
+    ).populate('favoritos');
+
+    res.json({ favoritos: usuario.favoritos });
+  } catch (error) {
+    console.error('Error en agregarFavorito:', error);
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const quitarFavorito = async (req, res) => {
