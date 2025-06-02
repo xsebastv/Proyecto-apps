@@ -87,6 +87,33 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <!-- Sección de comentarios/tags -->
+  <ion-card *ngIf="famoso">
+    <ion-card-header>
+      <ion-card-title>Comentarios / Tags</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="tags.length; else sinTags">
+        <ion-item *ngFor="let tag of tags">
+          <ion-label>
+            <strong>{{ tag.usuario?.nombre || 'Usuario' }}</strong>:
+            {{ tag.comentario }}
+            <br>
+            <small>{{ tag.fecha | date:'short' }}</small>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ng-template #sinTags>
+        <p>No hay comentarios aún.</p>
+      </ng-template>
+      <ion-item>
+        <ion-input [(ngModel)]="nuevoComentario" placeholder="Escribe un comentario..."></ion-input>
+        <ion-button (click)="agregarTag()" [disabled]="!nuevoComentario.trim()">Comentar</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card *ngIf="!famoso">
     <ion-card-content>
       <ion-spinner></ion-spinner> Cargando información del famoso...

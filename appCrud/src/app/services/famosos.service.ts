@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { URL_API } from '../config/url.servicios';
 import { map, throwError } from 'rxjs';
 import { Famoso } from '../interfaces/famoso.interface';
+import { FamosoTag } from '../interfaces/famoso-tag.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -102,4 +103,25 @@ export class FamososService {
 
     return throwError(() => new Error('Acción no válida en crud_Famoso'));
   }
+
+  // Métodos para tags/comentarios de famosos
+
+  getTagsDeFamoso(famosoId: string) {
+  const url = `${URL_API}/famoso_tag/famoso/${famosoId}`;
+  const token = localStorage.getItem('token') || '';
+  const headers = { 'x-token': token };
+  return this.http.get(url, { headers }).pipe(
+    map((data: any) => data.tags || data.resp || data)
+  );
+}
+
+agregarTagAFamoso(famosoId: string, tag: Partial<FamosoTag>) {
+  const url = `${URL_API}/famoso_tag/`;
+  const token = localStorage.getItem('token') || '';
+  const headers = { 'x-token': token, 'Content-Type': 'application/json' };
+  // El backend espera el id del famoso en el body
+  return this.http.post(url, { ...tag, famoso: famosoId }, { headers }).pipe(
+    map((data: any) => data.tag || data.resp || data)
+  );
+}
 }
