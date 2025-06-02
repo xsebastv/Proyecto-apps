@@ -8,4 +8,7 @@ router.post('/agregar', validarJWT, agregarFavorito);
 router.post('/quitar', validarJWT, quitarFavorito);
 router.get('/', validarJWT, obtenerFavoritos);
 
+router.get('/favoritos/:usuarioId', obtenerFavoritos);
+
+router.get('/favoritos', obtenerFavoritos);
 module.exports = router;

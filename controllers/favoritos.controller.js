@@ -40,11 +40,18 @@ const quitarFavorito = async (req, res) => {
 
 const obtenerFavoritos = async (req, res) => {
     try {
-        const usuario = await Usuario.findById(req.usuario._id).populate('favoritos');
+        const usuarioId = req.params.usuarioId || req.usuario._id; // Usa usuarioId de params o el usuario autenticado
+        const usuario = await Usuario.findById(usuarioId).populate('favoritos');
+        
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
         res.json({ favoritos: usuario.favoritos });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 module.exports = { agregarFavorito, quitarFavorito, obtenerFavoritos };
