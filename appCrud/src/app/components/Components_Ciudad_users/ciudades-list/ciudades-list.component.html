@@ -34,12 +34,6 @@
         </div>
       </ion-label>
     </ion-item>
-    <ion-card-content>
-      <p>
-        <ion-icon name="pricetag-outline"></ion-icon>
-        <strong>ID:</strong> {{ ciudad._id || 'Sin ID' }}
-      </p>
-    </ion-card-content>
   </ion-card>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">

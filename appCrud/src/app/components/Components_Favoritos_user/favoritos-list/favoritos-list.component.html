@@ -1,28 +1,54 @@
-<ng-container *ngIf="cargando">
-  <ion-spinner></ion-spinner> Cargando favoritos...
-</ng-container>
-<ion-list *ngIf="!cargando && favoritos && favoritos.length > 0">
+<ion-list class="ion-padding-top">
+  <ion-list-header>
+    <ion-label>
+      <strong>{{ titulo }} - {{ subtitulo }}</strong>
+    </ion-label>
+  </ion-list-header>
+
   <ion-card *ngFor="let fav of favoritos">
-    <ion-card-header>
-      <ion-card-title>{{ fav.nombre }}</ion-card-title>
-      <ion-card-subtitle *ngIf="fav.tipo">{{ fav.tipo }}</ion-card-subtitle>
-    </ion-card-header>
+    <ion-item lines="none" class="favorito-item" (click)="verFavorito(fav._id)">
+      <div class="favorito-thumb">
+        <img *ngIf="fav.imagen; else sinImagen" [src]="fav.imagen" alt="Imagen favorito" />
+        <ng-template #sinImagen>
+          <div class="sin-imagen">
+            <ion-icon name="heart-outline" size="large"></ion-icon>
+          </div>
+        </ng-template>
+      </div>
+      <ion-label>
+        <div class="favorito-info">
+          <h2>
+            <ion-icon name="heart-outline"></ion-icon>
+            {{ fav.nombre || 'Sin nombre' }}
+          </h2>
+          <div class="favorito-detalles">
+            <span *ngIf="fav.tipo">
+              <ion-icon name="pricetag-outline"></ion-icon>
+              {{ fav.tipo }}
+            </span>
+            <span *ngIf="fav.direccion">
+              <ion-icon name="location-outline"></ion-icon>
+              {{ fav.direccion }}
+            </span>
+          </div>
+        </div>
+      </ion-label>
+      <ion-button fill="clear" (click)="toggleFavorito(fav)">
+        <ion-icon
+          [name]="esFavorito(fav._id) ? 'heart' : 'heart-outline'"
+          color="danger">
+        </ion-icon>
+      </ion-button>
+    </ion-item>
     <ion-card-content>
-      <p *ngIf="fav.descripcion">
-        <strong>Descripción:</strong>
-        <span>{{ fav.descripcion }}</span>
-      </p>
-      <p *ngIf="fav.direccion">
-        <strong>Dirección:</strong>
-        <span>{{ fav.direccion }}</span>
-      </p>
       <p>
-        <strong>ID:</strong>
-        <span>{{ fav._id }}</span>
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <strong>ID:</strong> {{ fav._id || 'Sin ID' }}
       </p>
     </ion-card-content>
   </ion-card>
 </ion-list>
-<ng-container *ngIf="!cargando && (!favoritos || favoritos.length === 0)">
+
+<ng-container *ngIf="!favoritos || favoritos.length === 0">
   <ion-text color="medium">No tienes sitios favoritos.</ion-text>
 </ng-container>

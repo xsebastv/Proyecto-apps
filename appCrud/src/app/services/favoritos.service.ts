@@ -19,11 +19,11 @@ export class FavoritosService {
   }
 
   getFavoritos() {
-    const url = `${URL_API}/auth/favoritos`;
+    const url = `${URL_API}/favoritos`;
     const headers = this.getHeaders();
 
     return this.http.get(url, { headers }).pipe(
-      map((data) => data),
+      map((data: any) => data.favoritos || []),
       catchError((error) => {
         console.error('Error en getFavoritos:', error);
         return throwError(() => new Error('Error al obtener favoritos'));
@@ -32,11 +32,11 @@ export class FavoritosService {
   }
 
   agregarFavorito(sitioId: string) {
-    const url = `${URL_API}/auth/favoritos/agregar`;
+    const url = `${URL_API}/favoritos/agregar`;
     const headers = this.getHeaders();
 
     return this.http.post(url, { sitioId }, { headers }).pipe(
-      map((data) => data),
+      map((data: any) => data),
       catchError((error) => {
         console.error('Error en agregarFavorito:', error);
         return throwError(() => new Error('Error al agregar favorito'));
@@ -45,11 +45,11 @@ export class FavoritosService {
   }
 
   quitarFavorito(sitioId: string) {
-    const url = `${URL_API}/auth/favoritos/quitar`;
+    const url = `${URL_API}/favoritos/quitar`;
     const headers = this.getHeaders();
 
     return this.http.post(url, { sitioId }, { headers }).pipe(
-      map((data) => data),
+      map((data: any) => data),
       catchError((error) => {
         console.error('Error en quitarFavorito:', error);
         return throwError(() => new Error('Error al quitar favorito'));
