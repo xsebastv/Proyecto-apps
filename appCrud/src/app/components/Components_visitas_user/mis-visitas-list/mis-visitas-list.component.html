@@ -6,7 +6,7 @@
   </ion-list-header>
 
   <ion-card *ngFor="let visita of visitas">
-    <ion-item lines="none" class="favorito-item" (click)="verSitio(visita.sitio?._id)">
+    <ion-item lines="none" class="favorito-item" (click)="verSitio(visita._id)">
       <div class="favorito-thumb">
         <img *ngIf="visita.sitio?.imagen; else sinImagen" [src]="visita.sitio?.imagen" alt="Imagen sitio" />
         <ng-template #sinImagen>

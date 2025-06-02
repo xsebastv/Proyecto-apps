@@ -50,10 +50,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/Admins/admin/admin.page').then(m => m.AdminPage)
   },
   {
-    path: 'ciudades-admin',
-    loadComponent: () => import('./pages/Admins/ciudades-admin/ciudades-admin.page').then(m => m.CiudadesAdminPage)
-  },
-  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'

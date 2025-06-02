@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { VisitasService } from 'src/app/services/visitas.service';
 
 @Component({
@@ -7,6 +8,7 @@ import { VisitasService } from 'src/app/services/visitas.service';
   templateUrl: './mis-visitas-view.component.html',
   styleUrls: ['./mis-visitas-view.component.scss'],
   standalone: true,
+  imports: [CommonModule, IonicModule]
 })
 export class MisVisitasViewComponent implements OnInit {
   @Input() visitaId!: string;
