@@ -31,6 +31,11 @@ export class VisitasService {
     const usuario = this.authService.getUserId();
     return this.http.get(`${URL_API}/visita?usuario=${usuario}`, { headers });
   }
+  obtenerVisitaPorId(idVisita: string) {
+  const token = localStorage.getItem('token') || '';
+  const headers = { 'x-token': token };
+  return this.http.get(`${URL_API}/visita/${idVisita}`, { headers });
+  }
 
   eliminarVisitaPorId(idVisita: string) {
     const token = localStorage.getItem('token') || '';

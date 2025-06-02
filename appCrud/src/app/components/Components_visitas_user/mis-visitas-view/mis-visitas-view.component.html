@@ -1,3 +1,73 @@
-<p>
-  mis-visitas-view works!
-</p>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volverALista()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Detalles de la Visita
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="visita && visita.sitio">
+    <ion-card-content>
+      <div class="sitio-thumb grande">
+        <img *ngIf="visita.sitio.imagen" [src]="visita.sitio.imagen" alt="Imagen sitio" />
+        <div *ngIf="!visita.sitio.imagen" class="sin-imagen">
+          <ion-icon name="image-outline" size="large"></ion-icon>
+          Sin imagen
+        </div>
+      </div>
+      <div class="sitio-titulos">
+        <h2>
+          <ion-icon name="business-outline"></ion-icon>
+          {{ visita.sitio.nombre }}
+        </h2>
+        <h3 *ngIf="visita.sitio.tipo">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          {{ visita.sitio.tipo }}
+        </h3>
+      </div>
+      <div class="info-extra">
+        <p *ngIf="visita.sitio.descripcion">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <strong>Descripción:</strong>
+          <span>{{ visita.sitio.descripcion }}</span>
+        </p>
+        <p *ngIf="visita.sitio.pais?.nombre">
+          <ion-icon name="flag-outline"></ion-icon>
+          <strong>País:</strong>
+          <span>{{ visita.sitio.pais.nombre }}</span>
+        </p>
+        <p *ngIf="visita.sitio.ciudad?.nombre">
+          <ion-icon name="business-outline"></ion-icon>
+          <strong>Ciudad:</strong>
+          <span>{{ visita.sitio.ciudad.nombre }}</span>
+        </p>
+        <p *ngIf="visita.sitio.direccion">
+          <ion-icon name="location-outline"></ion-icon>
+          <strong>Dirección:</strong>
+          <span>{{ visita.sitio.direccion }}</span>
+        </p>
+        <p *ngIf="visita.sitio.telefono">
+          <ion-icon name="call-outline"></ion-icon>
+          <strong>Teléfono:</strong>
+          <span>{{ visita.sitio.telefono }}</span>
+        </p>
+        <p *ngIf="visita.fecha_visita">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <strong>Fecha de visita:</strong>
+          <span>{{ visita.fecha_visita | date:'mediumDate' }}</span>
+        </p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="!visita">
+    <ion-card-content>
+      <ion-spinner></ion-spinner> Cargando información de la visita...
+    </ion-card-content>
+  </ion-card>
+</ion-content>

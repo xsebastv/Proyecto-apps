@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { MisVisitasViewComponent } from '../mis-visitas-view/mis-visitas-view.component';
 
 @Component({
   selector: 'app-mis-visitas-list',
@@ -15,13 +16,15 @@ export class MisVisitasListComponent implements OnInit {
   @Input() subtitulo: string = '';
   @Output() visitaEliminada = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
-  verSitio(sitioId: string) {
-    // Aquí puedes abrir un modal o navegar a la vista del sitio si lo deseas
-    // Ejemplo: this.modalCtrl.create({ ... });
-    console.log('Ver sitio', sitioId);
+  async verSitio(visitaId: string) {
+    const modal = await this.modalCtrl.create({
+      component: MisVisitasViewComponent,
+      componentProps: { visitaId }
+    });
+    await modal.present();
   }
 }
