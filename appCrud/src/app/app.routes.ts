@@ -30,10 +30,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/Users/favoritos/favoritos.page').then(m => m.FavoritosPage)
   },
   {
-    path: 'gestion-sitios',
-    loadComponent: () => import('./pages/Admins/gestion-sitios/gestion-sitios.page').then(m => m.GestionSitiosPage)
-  },
-  {
     path: 'consultas',
     loadComponent: () => import('./pages/Users/consultas/consultas.page').then(m => m.ConsultasPage)
   },

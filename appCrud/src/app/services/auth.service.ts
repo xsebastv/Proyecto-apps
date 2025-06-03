@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_API } from '../config/url.servicios';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -189,5 +189,47 @@ export class AuthService {
       clearTimeout(this.logoutTimeout);
       this.logoutTimeout = null;
     }
+  }
+
+  // --- MÉTODOS PARA ADMINISTRADOR ---
+
+  // Obtener todos los usuarios
+  getAllUsers(): Observable<any[]> {
+    const token = this.getToken();
+    return this.http.get<any>(`${URL_API}/usuarios`, {
+      headers: { 'x-token': token || '' }
+    }).pipe(
+      map((data: any) => data.usuarios || data.resp || data),
+      catchError((error) => {
+        console.error('Error al obtener usuarios:', error);
+        return throwError(() => new Error('Error al obtener usuarios'));
+      })
+    );
+  }
+
+  // Eliminar usuario por ID
+  deleteUser(userId: string): Observable<any> {
+    const token = this.getToken();
+    return this.http.delete(`${URL_API}/usuarios/${userId}`, {
+      headers: { 'x-token': token || '' }
+    }).pipe(
+      catchError((error) => {
+        console.error('Error al eliminar usuario:', error);
+        return throwError(() => new Error('Error al eliminar usuario'));
+      })
+    );
+  }
+
+  // Actualizar rol de usuario
+  updateUserRole(userId: string, role: string): Observable<any> {
+    const token = this.getToken();
+    return this.http.put(`${URL_API}/usuarios/${userId}`, { rol: role }, {
+      headers: { 'x-token': token || '' }
+    }).pipe(
+      catchError((error) => {
+        console.error('Error al actualizar rol:', error);
+        return throwError(() => new Error('Error al actualizar rol'));
+      })
+    );
   }
 }
