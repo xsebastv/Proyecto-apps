@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { SitiosService } from 'src/app/services/sitios.service';
 import { PaisesService } from 'src/app/services/paises.service';
 import { CiudadesBDService } from 'src/app/services/ciudades-bd.service';
@@ -8,6 +8,7 @@ import { VisitasService } from 'src/app/services/visitas.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import mapboxgl from 'mapbox-gl';
 
 @Component({
   selector: 'app-sitios-view',
@@ -16,14 +17,17 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class SitiosViewComponent implements OnInit {
+export class SitiosViewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() sitioId!: string;
+  @ViewChild('mapContainer') mapContainer!: ElementRef<HTMLDivElement>;
   sitio: any;
   nombrePais: string = '';
   nombreCiudad: string = '';
   favoritos: string[] = [];
   yaVisitado: boolean = false;
   idVisita: string | null = null;
+  verMapa: boolean = false;
+  map?: mapboxgl.Map;
 
   constructor(
     private sitiosService: SitiosService,
@@ -49,11 +53,27 @@ export class SitiosViewComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    // Si el mapa ya debe mostrarse al cargar
+    if (this.verMapa && this.sitio && this.sitio.latitud && this.sitio.longitud) {
+      this.initMap();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.remove();
+    }
+  }
+
   cargarSitio() {
     this.sitiosService.getUnSitio(this.sitioId).subscribe((data: any) => {
       this.sitio = data;
       this.cargarNombrePaisYCiudad();
       this.verificarVisita();
+      if (this.verMapa && this.sitio.latitud && this.sitio.longitud) {
+        setTimeout(() => this.initMap(), 0);
+      }
     });
   }
 
@@ -128,9 +148,7 @@ export class SitiosViewComponent implements OnInit {
       next: (visita: any) => {
         alert('¡Visita registrada!');
         this.yaVisitado = true;
-        this.idVisita = visita?._id || null; // Si la API devuelve la visita creada
-        // Opcional: puedes llamar a this.verificarVisita() si necesitas refrescar desde la API
-        // this.verificarVisita();
+        this.idVisita = visita?._id || null;
       },
       error: err => {
         alert('Error al registrar visita');
@@ -196,5 +214,32 @@ export class SitiosViewComponent implements OnInit {
 
   volverACiudad() {
     this.modalCtrl.dismiss();
+  }
+
+  toggleMapa() {
+    this.verMapa = !this.verMapa;
+    if (this.verMapa && this.sitio && this.sitio.latitud && this.sitio.longitud) {
+      setTimeout(() => this.initMap(), 0);
+    }
+  }
+
+  initMap() {
+    if (!this.sitio?.latitud || !this.sitio?.longitud || !this.mapContainer) return;
+
+    if (this.map) {
+      this.map.remove();
+    }
+
+    this.map = new mapboxgl.Map({
+      accessToken: 'pk.eyJ1IjoieHNlYmFzdHYiLCJhIjoiY21iOGRydGxwMGh1cjJqcHR1Z3E4eml4bCJ9._fz4Xmgls-0TIabepvFpJA',
+      container: this.mapContainer.nativeElement,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [this.sitio.longitud, this.sitio.latitud],
+      zoom: 15
+    });
+
+    new mapboxgl.Marker()
+      .setLngLat([this.sitio.longitud, this.sitio.latitud])
+      .addTo(this.map);
   }
 }

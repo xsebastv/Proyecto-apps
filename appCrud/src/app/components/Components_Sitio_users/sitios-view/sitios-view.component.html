@@ -31,6 +31,18 @@
           {{ sitio.tipo }}
         </h3>
       </div>
+
+      <!-- Botón para mostrar/ocultar el mapa -->
+      <ion-item button detail lines="none" class="ver-mapa-btn" (click)="toggleMapa()">
+        <ion-icon name="map-outline" slot="start"></ion-icon>
+        <ion-label>Ver en el mapa</ion-label>
+        <ion-icon [name]="verMapa ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+      </ion-item>
+      <!-- Contenedor del mapa -->
+      <div *ngIf="verMapa && sitio.latitud && sitio.longitud" class="mapa-container">
+        <div #mapContainer class="mapbox-map"></div>
+      </div>
+
       <div class="info-extra">
         <p *ngIf="sitio.descripcion">
           <ion-icon name="document-text-outline"></ion-icon>
