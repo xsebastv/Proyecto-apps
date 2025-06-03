@@ -26,7 +26,7 @@ router.use('/platos', require('./platos.route'));
 router.use('/sitios', require('./sitios.route'));
 
 // Rutas relacionadas con etiquetas de famosos
-router.use('/famoso_tag', require('./famosoTag.route'));
+app.use('/api/famosotags', famosoTagRoutes);
 
 // Rutas relacionadas con visitas
 router.use('/visita', require('./visita.route'));
