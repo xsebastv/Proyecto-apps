@@ -18,5 +18,5 @@ router.get('/favoritos/:usuarioId', validarJWT, obtenerFavoritos);
 
 // Ruta redundante para obtener los favoritos del usuario autenticado (puede ser eliminada si no es necesaria)
 router.get('/favoritos', validarJWT, obtenerFavoritos);
-router.get('/todos', obtenerTodosLosFavoritos);
+router.get('/todos', validarJWT, obtenerTodosLosFavoritos);
 module.exports = router;
