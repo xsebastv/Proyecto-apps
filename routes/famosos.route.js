@@ -7,7 +7,8 @@ const {
     eliminarFamoso,
     obtenerFamososPorCiudad,
     obtenerFamososPorPais,
-    obtenerFamososPorCategoria // Asegúrate de exportar esta función en tu controlador
+    obtenerFamososPorCategoria,
+    obtenerTodosLosTags // Asegúrate de exportar esta función en tu controlador
 } = require('../controllers/famosos.controller');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -22,6 +23,9 @@ router.get('/pais/:idPais', validarJWT, obtenerFamososPorPais);
 
 // Consulta especial: famosos por categoría y procedencia
 router.get('/consulta/categoria', validarJWT, obtenerFamososPorCategoria);
+
+// Nueva ruta: obtener todos los tags de los famosos
+router.get('/tags', validarJWT, obtenerTodosLosTags);
 
 router.get('/:id', validarJWT, obtenerFamoso);
 router.put('/:id', validarJWT, actualizarFamoso);

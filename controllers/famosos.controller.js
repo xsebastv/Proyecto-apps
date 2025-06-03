@@ -144,6 +144,18 @@ const eliminarFamoso = async (req, res) => {
     }
 };
 
+// Obtener todos los tags de todos los famosos
+const obtenerTodosLosTags = async (req, res) => {
+    try {
+        const famosos = await Famoso.find({}, 'tags'); // Obtener solo el campo 'tags'
+        const allTags = famosos.flatMap(famoso => famoso.tags); // Combinar todos los arrays de tags
+        const uniqueTags = [...new Set(allTags)]; // Eliminar duplicados
+        res.status(200).json({ tags: uniqueTags });
+    } catch (error) {
+        res.status(500).json({ msg: 'Error al obtener los tags de los famosos', error: error.message });
+    }
+};
+
 module.exports = {
     crearFamoso,
     obtenerFamosos,
@@ -152,5 +164,6 @@ module.exports = {
     eliminarFamoso,
     obtenerFamososPorCiudad,
     obtenerFamososPorPais,
-    obtenerFamososPorCategoria
+    obtenerFamososPorCategoria,
+    obtenerTodosLosTags // Agregar la nueva función al módulo
 };
