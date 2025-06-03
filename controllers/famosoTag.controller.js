@@ -16,7 +16,7 @@ const obtenerTagsPorFamoso = async (req, res) => {
     try {
         const { idFamoso } = req.params;
         const tags = await FamosoTag.find({ famoso: idFamoso })
-            .populate('usuario', 'nombre'); // <-- Esto es clave
+            .populate('usuario', 'nombre');
         res.json({ tags });
     } catch (error) {
         res.status(500).json({ msg: 'Error al obtener tags', error });
@@ -26,8 +26,9 @@ const obtenerTagsPorFamoso = async (req, res) => {
 // Obtener todos los tags de un usuario
 const obtenerTagsPorUsuario = async (req, res) => {
     try {
-        const tags = await FamosoTag.find({ usuario: req.usuario._id }).populate('famoso', 'nombre');
-        res.json(tags);
+        const tags = await FamosoTag.find({ usuario: req.usuario._id })
+            .populate('famoso', 'nombre');
+        res.json({ tags }); // <-- Cambiado para devolver un objeto con la propiedad tags
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
