@@ -74,6 +74,16 @@ const obtenerVisitasPorPais = async (req, res) => {
     }
 };
 
+// Obtener todas las visitas (de todos los usuarios) para estadísticas
+const obtenerTodasLasVisitas = async (req, res) => {
+    try {
+        const visitas = await Visita.find().populate('usuario sitio');
+        res.status(200).json(visitas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Actualizar una visita por ID (solo si pertenece al usuario)
 const actualizarVisita = async (req, res) => {
     try {
@@ -126,5 +136,6 @@ module.exports = {
     actualizarVisita,
     eliminarVisita,
     obtenerVisitasPorCiudad,
-    obtenerVisitasPorPais
+    obtenerVisitasPorPais,
+    obtenerTodasLasVisitas // <-- ¡No olvides exportar este método!
 };
