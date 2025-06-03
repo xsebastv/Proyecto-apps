@@ -1,0 +1,80 @@
+<ng-container *ngIf="modo === 'ver'">
+  <ion-item>
+    <ion-label>Nombre</ion-label>
+    <div>{{ sitio.nombre }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Descripción</ion-label>
+    <div>{{ sitio.descripcion }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>País</ion-label>
+    <div>{{ sitio.pais }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ciudad</ion-label>
+    <div>{{ sitio.ciudad }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Dirección</ion-label>
+    <div>{{ sitio.direccion }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Latitud</ion-label>
+    <div>{{ sitio.latitud }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Longitud</ion-label>
+    <div>{{ sitio.longitud }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tipo</ion-label>
+    <div>{{ sitio.tipo }}</div>
+  </ion-item>
+  <ion-item>
+    <ion-label>Imagen</ion-label>
+    <img *ngIf="sitio.imagen" [src]="sitio.imagen" style="max-width:100px;">
+  </ion-item>
+  <ion-button expand="block" color="medium" (click)="onCancelar()">Cerrar</ion-button>
+</ng-container>
+
+<ng-container *ngIf="modo === 'editar' || modo === 'crear'">
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.descripcion"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">País</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.pais"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Ciudad</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.ciudad"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Dirección</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.direccion"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Latitud</ion-label>
+    <ion-input type="number" [(ngModel)]="sitioEditado.latitud"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Longitud</ion-label>
+    <ion-input type="number" [(ngModel)]="sitioEditado.longitud"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Tipo</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.tipo"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Imagen (URL)</ion-label>
+    <ion-input [(ngModel)]="sitioEditado.imagen"></ion-input>
+  </ion-item>
+  <ion-button expand="block" color="success" (click)="onGuardar()">Guardar</ion-button>
+  <ion-button expand="block" color="medium" (click)="onCancelar()">Cancelar</ion-button>
+</ng-container>

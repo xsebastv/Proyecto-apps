@@ -5,6 +5,8 @@ export interface Sitio {
   imagen?: string;
   pais: { _id: string } | string;
   ciudad?: { _id: string } | string;
+  direccion?: string;
   latitud?: number;
   longitud?: number;
+  tipo?: string;
 }

@@ -71,6 +71,7 @@ export class SitiosService {
         imagen: sitio.imagen,
         pais: typeof sitio.pais === 'object' ? sitio.pais._id : sitio.pais,
         ciudad: sitio.ciudad ? (typeof sitio.ciudad === 'object' ? sitio.ciudad._id : sitio.ciudad) : undefined,
+        direccion: sitio.direccion, // <-- agregado
         latitud: sitio.latitud,
         longitud: sitio.longitud
       };
@@ -89,6 +90,7 @@ export class SitiosService {
         imagen: sitio.imagen,
         pais: typeof sitio.pais === 'object' ? sitio.pais._id : sitio.pais,
         ciudad: sitio.ciudad ? (typeof sitio.ciudad === 'object' ? sitio.ciudad._id : sitio.ciudad) : undefined,
+        direccion: sitio.direccion, // <-- agregado
         latitud: sitio.latitud,
         longitud: sitio.longitud
       };

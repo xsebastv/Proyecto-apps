@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sitios (Admin)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Filtrar por país</ion-label>
+    <ion-select [(ngModel)]="paisSeleccionado" (ionChange)="filtrarPorPais()">
+      <ion-select-option value="">Todos</ion-select-option>
+      <ng-container *ngFor="let pais of paises">
+        <ion-select-option [value]="pais._id">{{ pais.nombre }}</ion-select-option>
+      </ng-container>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" color="primary" (click)="onCrearSitio()" *ngIf="!modo">
+    Agregar nuevo sitio
+  </ion-button>
+
+  <app-sitios-list-admin
+    *ngIf="!modo"
+    [sitios]="sitiosFiltrados"
+    (verSitio)="onVerSitio($event)"
+    (editarSitio)="onEditarSitio($event)"
+    (eliminarSitio)="onEliminarSitio($event)">
+  </app-sitios-list-admin>
+
+  <app-sitios-view-admin
+    *ngIf="modo"
+    [sitio]="sitioSeleccionado"
+    [modo]="modo"
+    (guardar)="onGuardarSitio($event)"
+    (cancelar)="onCancelar()">
+  </app-sitios-view-admin>
+
+  <ion-spinner *ngIf="cargando" name="dots"></ion-spinner>
+</ion-content>

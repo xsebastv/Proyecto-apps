@@ -1,0 +1,14 @@
+<ion-list>
+  <ion-item *ngFor="let sitio of sitios">
+    <ion-label (click)="onVer(sitio)">
+      <h2>{{ sitio.nombre }}</h2>
+      <p>{{ sitio.descripcion }}</p>
+    </ion-label>
+    <ion-button fill="clear" color="medium" (click)="onEditar(sitio)">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" color="danger" (click)="onEliminar(sitio._id)">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-list>

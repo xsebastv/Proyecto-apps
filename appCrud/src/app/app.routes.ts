@@ -42,16 +42,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/Users/mis-visitas/mis-visitas.page').then(m => m.MisVisitasPage)
   },
   {
-    path: 'admin',
-    loadComponent: () => import('./pages/Admins/admin/admin.page').then(m => m.AdminPage)
+    path: 'estadisticas',
+    loadComponent: () => import('./pages/Comun/estadisticas/estadisticas.page').then(m => m.EstadisticasPage)
+  },
+  {
+    path: 'sitios-admin',
+    loadComponent: () => import('./pages/Admins/sitios-admin/sitios-admin/sitios-admin.page').then(m => m.SitiosAdminPage)
   },
   {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
-  },
-  {
-    path: 'estadisticas',
-    loadComponent: () => import('./pages/Comun/estadisticas/estadisticas.page').then(m => m.EstadisticasPage)
   }
 ];
