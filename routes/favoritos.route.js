@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { agregarFavorito, quitarFavorito, obtenerFavoritos,obtenerTodosLosFavoritos } = require('../controllers/favoritos.controller');
+const { agregarFavorito, quitarFavorito, obtenerFavoritos,obtenerTodosLosFavoritos, rankingUsuariosMasFavoritos } = require('../controllers/favoritos.controller');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
@@ -19,4 +19,5 @@ router.get('/favoritos/:usuarioId', validarJWT, obtenerFavoritos);
 // Ruta redundante para obtener los favoritos del usuario autenticado (puede ser eliminada si no es necesaria)
 router.get('/favoritos', validarJWT, obtenerFavoritos);
 router.get('/todos', validarJWT, obtenerTodosLosFavoritos);
+router.get('/ranking-usuarios', validarJWT, rankingUsuariosMasFavoritos);
 module.exports = router;

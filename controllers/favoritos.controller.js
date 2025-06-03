@@ -67,7 +67,24 @@ const obtenerTodosLosFavoritos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const rankingUsuariosMasFavoritos = async (req, res) => {
+  try {
+    // Busca los usuarios y cuenta la cantidad de favoritos de cada uno
+    const usuarios = await Usuario.aggregate([
+      { $project: { nombre: 1, totalFavoritos: { $size: "$favoritos" } } },
+      { $sort: { totalFavoritos: -1 } },
+      { $limit: 10 }
+    ]);
+    res.json({ ranking: usuarios });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-
-
-module.exports = { agregarFavorito, quitarFavorito, obtenerFavoritos, obtenerTodosLosFavoritos };
+module.exports = {
+  agregarFavorito,
+  quitarFavorito,
+  obtenerFavoritos,
+  obtenerTodosLosFavoritos,
+  rankingUsuariosMasFavoritos
+};
