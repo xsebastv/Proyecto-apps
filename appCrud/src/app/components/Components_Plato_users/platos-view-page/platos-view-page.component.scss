@@ -7,7 +7,7 @@
 }
 
 :host ::ng-deep .plato-thumb {
-  width: 120px;      // <--- Imagen más grande
+  width: 120px;
   height: 120px;
   min-width: 120px;
   min-height: 120px;
@@ -23,7 +23,7 @@
 }
 
 :host ::ng-deep .plato-thumb.grande {
-  width: 210px;      // <--- Imagen más grande
+  width: 210px;
   height: 210px;
   min-width: 210px;
   min-height: 210px;
@@ -53,7 +53,7 @@
 :host ::ng-deep .plato-titulos h3 {
   font-size: 2.15em;
   font-weight: bold;
-  color: #222; /* <--- Aquí cambias el color del nombre y precio */
+  color: #222;
   margin: 0 0 10px 0;
   display: flex;
   align-items: center;
@@ -89,17 +89,20 @@
 }
 
 :host ::ng-deep .info-extra .descripcion-block strong {
-  display: block;
+  display: inline;
   margin-bottom: 2px;
 }
 
 :host ::ng-deep .info-extra .descripcion-texto {
   display: block;
-  margin-left: 28px;
+  margin-left: 0;
   color: #222;
-  font-size: 1em;
+  font-size: 1.08em;
   font-weight: 400;
   word-break: break-word;
+  text-align: left;
+  margin-top: 2px;
+  line-height: 1.5;
 }
 
 :host ::ng-deep .info-extra strong {
@@ -165,7 +168,7 @@
   /* --- COLOR DEL NOMBRE DEL PLATO Y PRECIO EN OSCURO --- */
   :host ::ng-deep .plato-titulos h2,
   :host ::ng-deep .plato-titulos h3 {
-    color: #fff; /* <--- Aquí cambias el color del nombre y precio en oscuro */
+    color: #fff;
   }
   /* ---------------------------------------------------- */
   :host ::ng-deep .info-extra {
