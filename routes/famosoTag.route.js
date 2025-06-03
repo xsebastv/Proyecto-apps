@@ -8,5 +8,7 @@ router.post('/', validarJWT, crearFamosoTag);
 router.get('/famoso/:idFamoso', validarJWT, obtenerTagsPorFamoso);
 router.get('/usuario', validarJWT, obtenerTagsPorUsuario);
 router.get('/', obtenerTodosLosTags); // <-- Nueva ruta para obtener todos los tags
-
+// famosoTag.route.js
+router.post('/', validarJWT, crearFamosoTag);
+router.get('/famoso/:idFamoso', validarJWT, obtenerTagsPorFamoso);
 module.exports = router;
