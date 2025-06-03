@@ -28,7 +28,7 @@ const obtenerTagsPorUsuario = async (req, res) => {
     try {
         const tags = await FamosoTag.find({ usuario: req.usuario._id })
             .populate('famoso', 'nombre');
-        res.json({ tags }); // <-- Cambiado para devolver un objeto con la propiedad tags
+        res.json({ tags }); // <-- Cambiado para devolver un objeto con la propiedad tagsasdada
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
