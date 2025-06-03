@@ -23,7 +23,7 @@ export class FavoritosService {
     const headers = this.getHeaders();
 
     return this.http.get(url, { headers }).pipe(
-      map((data: any) => data.favoritos || []),
+      map((data: any) => Array.isArray(data) ? data : (data.favoritos || data.resp || [])),
       catchError((error) => {
         console.error('Error en getFavoritos:', error);
         return throwError(() => new Error('Error al obtener favoritos'));

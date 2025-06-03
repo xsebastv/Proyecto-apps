@@ -46,17 +46,15 @@ export const routes: Routes = [
           }
         ]
       },
-      
       {
         path: 'famosos',
         loadComponent: () =>
           import('../pages/Users/famosos/famosos.page').then((m) => m.FamososPage),
       },
-      // Ejemplo de ruta en tabs.routes.ts
       {
         path: 'favoritos',
         loadComponent: () => import('src/app/pages/Users/favoritos/favoritos.page').then(m => m.FavoritosPage)
-      },  
+      },
       {
         path: 'mis-visitas',
         loadComponent: () =>
@@ -66,6 +64,11 @@ export const routes: Routes = [
         path: 'admin',
         loadComponent: () =>
           import('../pages/Admins/admin/admin.page').then((m) => m.AdminPage),
+      },
+      {
+        path: 'estadisticas',
+        loadComponent: () =>
+          import('../pages/Comun/estadisticas/estadisticas.page').then((m) => m.EstadisticasPage),
       },
       {
         path: '',

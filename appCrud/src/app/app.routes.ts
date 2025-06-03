@@ -53,5 +53,9 @@ export const routes: Routes = [
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
+  },
+  {
+    path: 'estadisticas',
+    loadComponent: () => import('./pages/Comun/estadisticas/estadisticas.page').then(m => m.EstadisticasPage)
   }
 ];
