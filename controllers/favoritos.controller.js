@@ -55,8 +55,13 @@ const obtenerFavoritos = async (req, res) => {
 const obtenerTodosLosFavoritos = async (req, res) => {
     try {
         const usuarios = await Usuario.find({}).populate('favoritos', 'nombre');
-        // Junta todos los favoritos en un solo array
-        const todosFavoritos = usuarios.flatMap(usuario => usuario.favoritos);
+        // Junta todos los favoritos en un solo array y convierte _id a string
+        const todosFavoritos = usuarios.flatMap(usuario =>
+            usuario.favoritos.map(fav => ({
+                _id: fav._id.toString(),
+                nombre: fav.nombre
+            }))
+        );
         res.json({ favoritos: todosFavoritos });
     } catch (error) {
         res.status(500).json({ error: error.message });
