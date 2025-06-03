@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardTitle, IonList, IonItem, IonLabel, IonIcon, IonSpinner } from '@ionic/angular/standalone';
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonCard, IonCardHeader, IonCardTitle, IonList, IonItem, IonLabel,
+  IonIcon, IonSpinner, IonAccordionGroup, IonAccordion, IonAvatar, IonBadge
+} from '@ionic/angular/standalone';
 import { SitiosService } from 'src/app/services/sitios.service';
 import { FamososService } from 'src/app/services/famosos.service';
 import { FavoritosService } from 'src/app/services/favoritos.service';
@@ -18,6 +22,7 @@ import { forkJoin } from 'rxjs';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonCard, IonCardHeader, IonCardTitle, IonList, IonItem, IonLabel,
     IonIcon, IonSpinner,
+    IonAccordionGroup, IonAccordion, IonAvatar, IonBadge,
     CommonModule, FormsModule
   ]
 })
@@ -25,6 +30,7 @@ export class EstadisticasPage implements OnInit {
   topSitios: any[] = [];
   topFamosos: any[] = [];
   topFavoritos: any[] = [];
+  topUsuariosFavoritos: any[] = [];
   loading = true;
 
   constructor(
@@ -39,7 +45,10 @@ export class EstadisticasPage implements OnInit {
     this.cargarEstadisticas();
   }
 
-  // Función auxiliar para extraer arrays de diferentes respuestas
+  ionViewWillEnter() {
+    this.cargarEstadisticas();
+  }
+
   private extraerArray(obj: any): any[] {
     if (Array.isArray(obj)) return obj;
     if (obj && typeof obj === 'object') {
@@ -55,14 +64,17 @@ export class EstadisticasPage implements OnInit {
     forkJoin({
       sitios: this.sitiosService.getSitios(),
       famosos: this.famososService.getFamosos(),
-      favoritos: this.favoritosService.getFavoritos(),
+      favoritos: this.favoritosService.getTodosFavoritos(),
       famososTags: this.famososTagsService.getFamosotags(),
-      visitas: this.visitasService.getVisitas()
+      visitas: this.visitasService.getTodasLasVisitas(),
+      rankingUsuarios: this.favoritosService.getRankingUsuariosFavoritos()
     }).subscribe({
-      next: ({ sitios, famosos, favoritos, famososTags, visitas }) => {
-        // Asegura que visitas y famososTags sean arrays
+      next: ({ sitios, famosos, favoritos, famososTags, visitas, rankingUsuarios }) => {
+        // Asegura que visitas sea array
         const visitasArray = this.extraerArray(visitas);
-        const famososTagsArray = this.extraerArray(famososTags);
+
+        // Extrae correctamente el array de tags de la respuesta { tags: [...] }
+        const famososTagsArray = Array.isArray(famososTags?.tags) ? famososTags.tags : [];
 
         // Top 10 sitios con más visitas (contando visitas en la colección)
         const visitasPorSitio: { [sitioId: string]: number } = {};
@@ -98,23 +110,22 @@ export class EstadisticasPage implements OnInit {
 
         // Sitios con más favoritos (contando favoritos en la colección de usuarios)
         const favoritosPorSitio: { [sitioId: string]: number } = {};
-        this.extraerArray(favoritos).forEach((fav: any) => {
-          // Si el favorito es un array de sitios, recorre cada uno
-          if (Array.isArray(fav.favoritos)) {
-            fav.favoritos.forEach((sitio: any) => {
-              const sitioId = sitio._id || sitio;
-              if (sitioId) {
-                favoritosPorSitio[sitioId] = (favoritosPorSitio[sitioId] || 0) + 1;
-              }
-            });
-          } else {
-            // Si es un solo sitio
-            const sitioId = fav.sitio?._id || fav.sitio;
-            if (sitioId) {
-              favoritosPorSitio[sitioId] = (favoritosPorSitio[sitioId] || 0) + 1;
-            }
+        const favoritosPorUsuario: { [usuarioId: string]: number } = {};
+        const favoritosArray = this.extraerArray(favoritos);
+
+        favoritosArray.forEach((fav: any) => {
+          // Sitio
+          const sitioId = fav._id || fav.sitio?._id || fav.sitio;
+          if (sitioId) {
+            favoritosPorSitio[sitioId] = (favoritosPorSitio[sitioId] || 0) + 1;
+          }
+          // Usuario
+          const usuarioId = fav.usuario?._id || fav.usuario;
+          if (usuarioId) {
+            favoritosPorUsuario[usuarioId] = (favoritosPorUsuario[usuarioId] || 0) + 1;
           }
         });
+
         this.topFavoritos = (sitios || [])
           .map((sitio: any) => ({
             ...sitio,
@@ -123,6 +134,8 @@ export class EstadisticasPage implements OnInit {
           .sort((a: any, b: any) => b.favoritos - a.favoritos)
           .slice(0, 10);
 
+        // Ranking de usuarios con más favoritos
+        this.topUsuariosFavoritos = rankingUsuarios;
         this.loading = false;
       },
       error: (err) => {

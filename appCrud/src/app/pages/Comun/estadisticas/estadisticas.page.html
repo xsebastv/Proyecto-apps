@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Estadísticas</ion-title>
+    <ion-title>
+      <ion-icon name="bar-chart" slot="start" style="margin-right:8px"></ion-icon>
+      Estadísticas
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -14,63 +17,98 @@
   </ion-card>
 
   <div *ngIf="!loading" class="estadisticas-container">
-    <!-- Top 10 Sitios con más visitas -->
-    <ion-card class="estadistica-card">
-      <ion-card-header>
-        <ion-card-title>
-          <ion-icon name="eye" color="primary"></ion-icon>
-          Top 10 Sitios con más visitas
-        </ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item *ngFor="let sitio of topSitios; let i = index" class="ranking-item">
-          <div class="ranking-number">{{ i + 1 }}</div>
-          <ion-label>
-            <span class="ranking-title">{{ sitio.nombre }}</span>
-            <span class="ranking-value">{{ sitio.visitas || 0 }} visitas</span>
-          </ion-label>
+    <ion-accordion-group expand="first">
+      <!-- Top 10 Sitios con más visitas -->
+      <ion-accordion value="visitas">
+        <ion-item slot="header" color="light">
+          <ion-icon name="eye" color="primary" slot="start"></ion-icon>
+          <ion-label><b>Top 10 Sitios con más visitas</b></ion-label>
         </ion-item>
-      </ion-list>
-    </ion-card>
+        <div class="estadistica-card" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let sitio of topSitios; let i = index" class="ranking-item">
+              <ion-avatar slot="start" class="ranking-avatar">
+                <ion-icon name="location" color="primary"></ion-icon>
+              </ion-avatar>
+              <div class="ranking-number">{{ i + 1 }}</div>
+              <ion-label>
+                <span class="ranking-title">{{ sitio.nombre }}</span>
+                <ion-badge color="primary" class="ranking-value-badge">{{ sitio.visitas || 0 }} visitas</ion-badge>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
 
-    <!-- Top 10 Famosos con más tags/comentarios -->
-    <ion-card class="estadistica-card">
-      <ion-card-header>
-        <ion-card-title>
-          <ion-icon name="star" color="warning"></ion-icon>
-          Top 10 Famosos con más tags/comentarios
-        </ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item *ngFor="let famoso of topFamosos; let i = index" class="ranking-item">
-          <div class="ranking-number">{{ i + 1 }}</div>
-          <ion-label>
-            <span class="ranking-title">{{ famoso.nombre }}</span>
-            <span class="ranking-value">
-              {{ famoso.totalTags || 0 }} tags/comentarios
-            </span>
-          </ion-label>
+      <!-- Top 10 Famosos con más tags/comentarios -->
+      <ion-accordion value="famosos">
+        <ion-item slot="header" color="light">
+          <ion-icon name="star" color="warning" slot="start"></ion-icon>
+          <ion-label><b>Top 10 Famosos con más tags/comentarios</b></ion-label>
         </ion-item>
-      </ion-list>
-    </ion-card>
+        <div class="estadistica-card" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let famoso of topFamosos; let i = index" class="ranking-item">
+              <ion-avatar slot="start" class="ranking-avatar">
+                <ion-icon name="person" color="warning"></ion-icon>
+              </ion-avatar>
+              <div class="ranking-number">{{ i + 1 }}</div>
+              <ion-label>
+                <span class="ranking-title">{{ famoso.nombre }}</span>
+                <ion-badge color="warning" class="ranking-value-badge">
+                  {{ famoso.totalTags || 0 }} tags/comentarios
+                </ion-badge>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
 
-    <!-- Top 10 Sitios con más favoritos -->
-    <ion-card class="estadistica-card">
-      <ion-card-header>
-        <ion-card-title>
-          <ion-icon name="heart" color="danger"></ion-icon>
-          Top 10 Sitios con más favoritos
-        </ion-card-title>
-      </ion-card-header>
-      <ion-list>
-        <ion-item *ngFor="let sitio of topFavoritos; let i = index" class="ranking-item">
-          <div class="ranking-number">{{ i + 1 }}</div>
-          <ion-label>
-            <span class="ranking-title">{{ sitio.nombre }}</span>
-            <span class="ranking-value">{{ sitio.favoritos }} favoritos</span>
-          </ion-label>
+      <!-- Top 10 Sitios con más favoritos -->
+      <ion-accordion value="favoritos">
+        <ion-item slot="header" color="light">
+          <ion-icon name="heart" color="danger" slot="start"></ion-icon>
+          <ion-label><b>Top 10 Sitios con más favoritos</b></ion-label>
         </ion-item>
-      </ion-list>
-    </ion-card>
+        <div class="estadistica-card" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let sitio of topFavoritos; let i = index" class="ranking-item">
+              <ion-avatar slot="start" class="ranking-avatar">
+                <ion-icon name="heart" color="danger"></ion-icon>
+              </ion-avatar>
+              <div class="ranking-number">{{ i + 1 }}</div>
+              <ion-label>
+                <span class="ranking-title">{{ sitio.nombre }}</span>
+                <ion-badge color="danger" class="ranking-value-badge">{{ sitio.favoritos }} favoritos</ion-badge>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+
+      <!-- Usuarios con más favoritos -->
+      <ion-accordion value="usuarios-favoritos">
+        <ion-item slot="header" color="light">
+          <ion-icon name="people" color="secondary" slot="start"></ion-icon>
+          <ion-label><b>Usuarios con más favoritos</b></ion-label>
+        </ion-item>
+        <div class="estadistica-card" slot="content">
+          <ion-list>
+            <ion-item *ngFor="let usuario of topUsuariosFavoritos; let i = index" class="ranking-item">
+              <ion-avatar slot="start" class="ranking-avatar">
+                <ion-icon name="person-circle" color="secondary"></ion-icon>
+              </ion-avatar>
+              <div class="ranking-number">{{ i + 1 }}</div>
+              <ion-label>
+                <span class="ranking-title">{{ usuario.nombre }}</span>
+                <ion-badge color="secondary" class="ranking-value-badge">
+                  {{ usuario.totalFavoritos }} favoritos
+                </ion-badge>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </div>
 </ion-content>

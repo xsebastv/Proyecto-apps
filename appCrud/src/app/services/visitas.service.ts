@@ -45,9 +45,9 @@ export class VisitasService {
   }
 
   // Método para obtener TODAS las visitas (para estadísticas globales)
-  getVisitas() {
+  getTodasLasVisitas() {
     const token = localStorage.getItem('token') || '';
     const headers = { 'x-token': token };
-    return this.http.get(`${URL_API}/visita`, { headers });
+    return this.http.get(`${URL_API}/visita/todas`, { headers });
   }
 }

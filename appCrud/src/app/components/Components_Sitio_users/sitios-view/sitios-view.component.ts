@@ -23,7 +23,7 @@ export class SitiosViewComponent implements OnInit {
   nombreCiudad: string = '';
   favoritos: string[] = [];
   yaVisitado: boolean = false;
-  idVisita: string | null = null; // <-- Guarda el id de la visita
+  idVisita: string | null = null;
 
   constructor(
     private sitiosService: SitiosService,
@@ -125,10 +125,12 @@ export class SitiosViewComponent implements OnInit {
 
   registrarVisita() {
     this.visitasService.registrarVisita(this.sitioId).subscribe({
-      next: () => {
+      next: (visita: any) => {
         alert('¡Visita registrada!');
         this.yaVisitado = true;
-        this.verificarVisita(); // Para actualizar el idVisita
+        this.idVisita = visita?._id || null; // Si la API devuelve la visita creada
+        // Opcional: puedes llamar a this.verificarVisita() si necesitas refrescar desde la API
+        // this.verificarVisita();
       },
       error: err => {
         alert('Error al registrar visita');
@@ -158,11 +160,28 @@ export class SitiosViewComponent implements OnInit {
       next: (resp: any) => {
         // Si tu backend devuelve un array de visitas:
         if (Array.isArray(resp) && resp.length > 0) {
-          this.yaVisitado = true;
-          this.idVisita = resp[0]._id;
+          // Filtra solo las visitas del usuario actual
+          const userId = this.authService.getUserId();
+          const visitasUsuario = resp.filter((v: any) =>
+            (v.usuario?._id || v.usuario) === userId
+          );
+          if (visitasUsuario.length > 0) {
+            this.yaVisitado = true;
+            this.idVisita = visitasUsuario[0]._id;
+          } else {
+            this.yaVisitado = false;
+            this.idVisita = null;
+          }
         } else if (resp && resp._id) {
-          this.yaVisitado = true;
-          this.idVisita = resp._id;
+          // Si es un solo objeto, verifica el usuario
+          const userId = this.authService.getUserId();
+          if ((resp.usuario?._id || resp.usuario) === userId) {
+            this.yaVisitado = true;
+            this.idVisita = resp._id;
+          } else {
+            this.yaVisitado = false;
+            this.idVisita = null;
+          }
         } else {
           this.yaVisitado = false;
           this.idVisita = null;

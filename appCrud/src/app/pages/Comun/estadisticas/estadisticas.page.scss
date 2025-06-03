@@ -24,6 +24,16 @@ ion-card-title {
   padding: 8px 0;
 }
 
+.ranking-avatar {
+  min-width: 36px;
+  min-height: 36px;
+  background: #f4f5f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
 .ranking-number {
   font-weight: bold;
   font-size: 1.3rem;
@@ -39,10 +49,10 @@ ion-card-title {
   display: block;
 }
 
-.ranking-value {
+.ranking-value-badge {
+  margin-top: 4px;
   font-size: 0.95rem;
-  color: var(--ion-color-medium);
-  display: block;
+  font-weight: 500;
 }
 
 .loading-card {
