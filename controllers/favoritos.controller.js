@@ -52,6 +52,17 @@ const obtenerFavoritos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const obtenerTodosLosFavoritos = async (req, res) => {
+    try {
+        const usuarios = await Usuario.find({}).populate('favoritos', 'nombre');
+        // Junta todos los favoritos en un solo array
+        const todosFavoritos = usuarios.flatMap(usuario => usuario.favoritos);
+        res.json({ favoritos: todosFavoritos });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 
-module.exports = { agregarFavorito, quitarFavorito, obtenerFavoritos };
+
+module.exports = { agregarFavorito, quitarFavorito, obtenerFavoritos, obtenerTodosLosFavoritos };
